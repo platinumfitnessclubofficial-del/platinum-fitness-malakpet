@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Platinum Fitness Club">
+  <circle cx="32" cy="32" r="31" fill="#ffffff"/>
+  <path d="M20 46V24l12-8 12 8v10L32 42 24 36.5V46h-4z" fill="#0a0a0c"/>
+  <circle cx="46" cy="44" r="5" fill="#ff5c1a"/>
+</svg>

@@ -1,0 +1,4 @@
+﻿.netlify/
+tools/
+deploy.ps1
+*.zip
