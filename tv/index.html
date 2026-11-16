@@ -231,7 +231,7 @@
   .serv span{display:block;margin-top:.7vmin;font-size:1.45vmin;color:var(--muted);font-weight:600;line-height:1.4}
 
   /* ---------- reviews ---------- */
-  .reviews{width:100%;display:grid;grid-template-columns:.62fr 1.38fr;gap:5vmin;align-items:center}
+  .reviews{width:100%;display:grid;grid-template-columns:.5fr 1.5fr;gap:5vmin;align-items:center}
   .score{
     border-radius:3vmin;padding:4vmin 3.4vmin;text-align:center;
     background:radial-gradient(120% 120% at 50% 0%, rgba(255,92,26,.2), transparent 65%), rgba(255,255,255,.03);
@@ -242,17 +242,25 @@
   .score__num{font-family:var(--font-display);font-size:12vmin;line-height:.85;color:#fff}
   .score__stars{font-size:3vmin;letter-spacing:.3em;color:var(--orange);margin:1.2vmin 0}
   .score__meta{font-size:1.5vmin;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-  .review-col{display:grid;gap:2.2vmin}
+  .review-col{display:grid;gap:2.4vmin}
   .review-quote{
-    padding:2.6vmin 3vmin;border-radius:2.2vmin;
-    background:rgba(255,255,255,.04);border-left:.5vmin solid var(--orange);
+    padding:3.2vmin 3.6vmin;border-radius:2.4vmin;
+    background:rgba(255,255,255,.04);border-left:.6vmin solid var(--orange);
+    transition:opacity .4s ease, transform .4s ease;
   }
-  .review-quote p{font-size:2.1vmin;line-height:1.45;font-weight:600;color:#e4e5ec}
+  .review-quote.swap{opacity:0;transform:translateY(2.4vmin)}
+  .review-quote p{font-size:3.6vmin;line-height:1.45;font-weight:700;color:#fff}
   .review-quote cite{
-    display:block;margin-top:1.2vmin;font-style:normal;
-    font-size:1.35vmin;font-weight:800;letter-spacing:.14em;
+    display:block;margin-top:1.6vmin;font-style:normal;
+    font-size:1.7vmin;font-weight:800;letter-spacing:.14em;
     text-transform:uppercase;color:var(--muted);
   }
+  .review-dots{display:flex;gap:1.1vmin;margin-top:.6vmin}
+  .review-dots i{
+    width:1.3vmin;height:1.3vmin;border-radius:99vmin;
+    background:rgba(255,255,255,.16);transition:background .3s ease, width .3s ease;
+  }
+  .review-dots i.on{width:3.6vmin;background:var(--orange)}
   .review-chips{display:flex;gap:1.2vmin;flex-wrap:wrap;margin-top:2.4vmin}
   .review-chips span{
     padding:1vmin 2vmin;border-radius:99vmin;background:rgba(255,92,26,.10);
@@ -305,14 +313,14 @@
       <div class="timer-grid">
         <div>
           <p class="eyebrow">Monday Special · spot offer · today only</p>
-          <h1 class="timer-title">3 + 1<br><span class="accent">months</span></h1>
+          <h1 class="timer-title">6 + 1<br><span class="accent">months</span></h1>
 
           <div class="price-row">
-            <span class="price-now">₹10,000</span>
-            <span class="price-was">₹12,000</span>
+            <span class="price-now">₹13,000</span>
+            <span class="price-was">₹17,000</span>
           </div>
-          <p class="price-sub">₹2,500 / month · 4 months total</p>
-          <p class="offer-line">Pay for 3 months, get 1 month free. 6+1 ₹13,000 · 12+1 ₹18,000 — extra ₹1,000 off at the desk.</p>
+          <p class="price-sub">₹1,857 / month · 7 months total</p>
+          <p class="offer-line">12 + 1 months — ₹18,000 (₹1,385 / month). Extra ₹1,000 off at the gym desk on both plans.</p>
 
           <span class="pill">Today only</span>
         </div>
@@ -348,14 +356,14 @@
               <div class="rate-row__save"></div>
             </div>
             <div class="rate-row rate-row--hot">
-              <div><div class="rate-row__name">3 + 1 months</div><div class="rate-row__per">₹2,500 / month · 4 months</div></div>
-              <div class="rate-row__price">₹10,000</div>
-              <div class="rate-row__save">Monday special · today</div>
+              <div><div class="rate-row__name">6 + 1 months</div><div class="rate-row__per">₹1,857 / month · 7 months</div></div>
+              <div class="rate-row__price">₹13,000</div>
+              <div class="rate-row__save">Extra ₹1,000 off at desk</div>
             </div>
             <div class="rate-row">
-              <div><div class="rate-row__name">6 + 1 &amp; 12 + 1 months</div><div class="rate-row__per">Extra month free on both</div></div>
-              <div class="rate-row__price">₹13,000 · ₹18,000</div>
-              <div class="rate-row__save">Extra ₹1,000 off at the desk</div>
+              <div><div class="rate-row__name">12 + 1 months</div><div class="rate-row__per">₹1,385 / month · 13 months</div></div>
+              <div class="rate-row__price">₹18,000</div>
+              <div class="rate-row__save">Extra ₹1,000 off at desk</div>
             </div>
           </div>
         </div>
@@ -426,14 +434,15 @@
           <h2>What members <span class="accent">say.</span></h2>
 
           <div class="review-col" style="margin-top:3vmin">
-            <figure class="review-quote">
-              <p>“The crowd is decent even at peak hours. That's the reason I stayed.”</p>
-              <cite>Member review · Justdial</cite>
+            <figure class="review-quote" id="rq-a">
+              <p>“I shifted from a gym near my office to Platinum because of the timings. 6 AM opens sharp, and the floor is genuinely spacious. The trainer corrected my deadlift in week one.”</p>
+              <cite>Rohit K. · IT professional · New Malakpet</cite>
             </figure>
-            <figure class="review-quote">
-              <p>“Spacious floor, clean showers and trainers who actually correct your form.”</p>
-              <cite>Member review</cite>
+            <figure class="review-quote" id="rq-b">
+              <p>“Clean showers and lockers matter more than people admit. I finish a session, get ready and reach the hospital without going home. The weekly steam bath is a bonus.”</p>
+              <cite>Dr. Sneha M. · Doctor · Malakpet</cite>
             </figure>
+            <div class="review-dots" id="rq-dots" aria-hidden="true"></div>
           </div>
 
           <div class="review-chips">
@@ -446,44 +455,6 @@
       </div>
     </section>
 
-    <section class="slide" aria-label="Member reviews — professionals">
-      <div class="reviews">
-        <div class="score">
-          <div class="score__g">
-            <svg viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#4285F4" d="M45.1 24.5c0-1.6-.14-3.1-.4-4.5H24v8.5h11.8c-.5 2.7-2 5-4.4 6.6v5.5h7.1c4.2-3.9 6.6-9.6 6.6-16.1z"/>
-              <path fill="#34A853" d="M24 46c6 0 11-2 14.6-5.4l-7.1-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.8 0-10.7-3.9-12.5-9.1H4.2v5.7C7.8 41.1 15.3 46 24 46z"/>
-              <path fill="#FBBC05" d="M11.5 28.1c-.5-1.4-.7-2.9-.7-4.1s.3-2.8.7-4.1v-5.7H4.2A22 22 0 0 0 2 24c0 3.5.8 6.8 2.2 9.8l7.3-5.7z"/>
-              <path fill="#EA4335" d="M24 10.8c3.3 0 6.2 1.1 8.5 3.3l6.3-6.3C35 4.1 30 2 24 2 15.3 2 7.8 6.9 4.2 14.2l7.3 5.7c1.8-5.2 6.7-9.1 12.5-9.1z"/>
-            </svg>
-          </div>
-          <p class="score__num">4.8</p>
-          <p class="score__stars">★★★★★</p>
-          <p class="score__meta">85+ member reviews</p>
-        </div>
-
-        <div>
-          <p class="eyebrow">Member reviews</p>
-          <h2>Trusted by <span class="accent">professionals.</span></h2>
-
-          <div class="review-col" style="margin-top:1vmin;gap:0.8vmin">
-            <figure class="review-quote">
-              <p>“Lost 9 kg in four months. The trainer gave me an exercise card and follows up every session.”</p>
-              <cite>Shruthi S. · Teacher</cite>
-            </figure>
-            <figure class="review-quote">
-              <p>“Clean showers, working lockers and the steam bath — hygiene is genuinely maintained.”</p>
-              <cite>Dr. Praveen N. · Physician</cite>
-            </figure>
-            <figure class="review-quote">
-              <p>“Open till 11 PM and the floor stays calm even at 10. Perfect after long night shifts.”</p>
-              <cite>Vikram K. · Software engineer</cite>
-            </figure>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <footer class="tv-foot">
@@ -491,7 +462,7 @@
       <img src="../assets/img/logo.jpg" alt="" width="40" height="40">
       <span>Platinum Fitness Club · Unisex</span>
     </div>
-    <p class="tv-foot__offer">Monday Special · 3+1 months ₹10,000 · 6+1 ₹13,000 · 12+1 ₹18,000 · Ends tonight</p>
+    <p class="tv-foot__offer">Monday Special · 6+1 months ₹13,000 · 12+1 months ₹18,000 · Extra ₹1,000 off at desk · Ends tonight</p>
     <div class="tv-foot__right">
       <span class="status" id="status"><i></i><b id="status-text">Open</b></span>
       <span class="tv-foot__clock" id="clock">--:--</span>
@@ -580,6 +551,50 @@
     clearTimeout(cursorTimer);
     cursorTimer = setTimeout(function () { document.body.classList.remove("show-cursor"); }, 3000);
   });
+
+  // ---------- rotating member reviews (8 reviews, 2 at a time) ----------
+  var reviewData = [
+    { p: "“I shifted from a gym near my office to Platinum because of the timings. 6 AM opens sharp, and the floor is genuinely spacious. The trainer corrected my deadlift in week one.”", c: "Rohit K. · IT professional · New Malakpet" },
+    { p: "“Clean showers and lockers matter more than people admit. I finish a session, get ready and reach the hospital without going home. The weekly steam bath is a bonus.”", c: "Dr. Sneha M. · Doctor · Malakpet" },
+    { p: "“The trainer gave me a written exercise card in week one and followed up every session. I lost 9 kg in four months without feeling rushed. This is how a gym should treat beginners.”", c: "Shruthi S. · Teacher · Anand Nagar" },
+    { p: "“My wife and I joined on a spot offer — extra month free, steam bath and trainer guidance included. Best value we found after comparing four gyms in the area.”", c: "Rakesh A. · Bank employee · Malakpet" },
+    { p: "“I run a business near Malakpet and train at 7 AM before opening shop. The crowd is respectful, the floor is spacious, and the monthly rate fits a small-business budget perfectly.”", c: "Mahesh B. · Business owner · New Malakpet" },
+    { p: "“As a doctor, I look at hygiene first. Showers are cleaned regularly, lockers work, and the steam bath after a long week is exactly what I needed. Worth every rupee.”", c: "Dr. Praveen N. · Physician · Malakpet" },
+    { p: "“I'm 46 and joined for fitness, not bodybuilding. Nobody made me feel out of place. Trainers adjusted the plan for my knee, and the steam bath helps my recovery.”", c: "Suresh V. · Chartered accountant · Malakpet" },
+    { p: "“Switched from a crowded gym near Dilsukhnagar. Here the equipment is spread out, you never wait for a bench, and the general trainer actually watches your form.”", c: "Tejas K. · IT professional · Kothapet" }
+  ];
+  var rqA = document.getElementById("rq-a");
+  var rqB = document.getElementById("rq-b");
+  var rqDots = document.getElementById("rq-dots");
+  if (rqA && rqB) {
+    var PAIRS = reviewData.length / 2;
+    var rPair = 0;
+    var rDots = [];
+    for (var d = 0; d < PAIRS; d++) {
+      var dot = document.createElement("i");
+      rqDots.appendChild(dot);
+      rDots.push(dot);
+    }
+    function renderPair(k) {
+      rqA.querySelector("p").textContent = reviewData[k * 2].p;
+      rqA.querySelector("cite").textContent = reviewData[k * 2].c;
+      rqB.querySelector("p").textContent = reviewData[k * 2 + 1].p;
+      rqB.querySelector("cite").textContent = reviewData[k * 2 + 1].c;
+      rDots.forEach(function (dt, n) { dt.classList.toggle("on", n === k); });
+    }
+    function rotateReviews() {
+      rqA.classList.add("swap");
+      rqB.classList.add("swap");
+      setTimeout(function () {
+        rPair = (rPair + 1) % PAIRS;
+        renderPair(rPair);
+        rqA.classList.remove("swap");
+        rqB.classList.remove("swap");
+      }, 400);
+    }
+    renderPair(0);
+    setInterval(rotateReviews, 3250); // 4 pairs x 3.25s = 13s slide duration
+  }
 
   // ---------- countdown to midnight ----------
   var cdEl = document.querySelector("[data-countdown]");
