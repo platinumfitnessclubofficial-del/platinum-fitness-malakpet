@@ -1395,9 +1395,9 @@ body.nav-open { overflow: hidden; }
   .anniv-band__pills span { font-size: 0.62rem; letter-spacing: 0.1em; }
 }
 
-/* Anniversary offer: single + big timer ------------------------------------ */
+/* Spot offer: two offer cards + big timer ---------------------------------- */
 .offer-grid--single {
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr);
   align-items: stretch;
 }
 .offer-grid--single .offer-card { height: 100%; }

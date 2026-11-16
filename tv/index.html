@@ -309,7 +309,7 @@
   <main class="deck">
 
     <!-- 1 · BIG TIMER + OFFER -->
-    <section class="slide" aria-label="Monday special spot offer countdown">
+    <section class="slide" aria-label="Monday special 6+1 months offer">
       <div class="timer-grid">
         <div>
           <p class="eyebrow">Monday Special · spot offer · today only</p>
@@ -320,7 +320,7 @@
             <span class="price-was">₹17,000</span>
           </div>
           <p class="price-sub">₹1,857 / month · 7 months total</p>
-          <p class="offer-line">12 + 1 months — ₹18,000 (₹1,385 / month). Extra ₹1,000 off at the gym desk on both plans.</p>
+          <p class="offer-line">Pay for 6 months, get 1 month free. Extra ₹1,000 off at the gym desk.</p>
 
           <span class="pill">Today only</span>
         </div>
@@ -330,8 +330,36 @@
           <p class="bomb__digits" data-countdown>00:00:00</p>
           <div class="bomb__bar"><i></i></div>
           <div class="bomb__foot">
-            <span>Spot offer batch</span>
-            <strong>Today only</strong>
+            <span>6+1 batch</span>
+            <strong>Filling fast</strong>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Monday special 12+1 months offer">
+      <div class="timer-grid">
+        <div>
+          <p class="eyebrow">Monday Special · spot offer · today only</p>
+          <h1 class="timer-title">12 + 1<br><span class="accent">months</span></h1>
+
+          <div class="price-row">
+            <span class="price-now">₹18,000</span>
+            <span class="price-was">₹23,000</span>
+          </div>
+          <p class="price-sub">₹1,385 / month · 13 months total</p>
+          <p class="offer-line">Pay for 12 months, get 1 month free. Extra ₹1,000 off at the gym desk.</p>
+
+          <span class="pill">Best value</span>
+        </div>
+
+        <aside class="bomb">
+          <p class="bomb__label"><span class="bomb__dot"></span> Offer ends in</p>
+          <p class="bomb__digits" data-countdown>00:00:00</p>
+          <div class="bomb__bar"><i></i></div>
+          <div class="bomb__foot">
+            <span>12+1 batch</span>
+            <strong>Filling fast</strong>
           </div>
         </aside>
       </div>
@@ -597,7 +625,7 @@
   }
 
   // ---------- countdown to midnight ----------
-  var cdEl = document.querySelector("[data-countdown]");
+  var cdEls = Array.prototype.slice.call(document.querySelectorAll("[data-countdown]"));
   function pad(n) { return n < 10 ? "0" + n : "" + n; }
   function tickCountdown() {
     var now = new Date();
@@ -606,7 +634,8 @@
     var h = Math.floor(diff / 3600000);
     var m = Math.floor((diff % 3600000) / 60000);
     var s = Math.floor((diff % 60000) / 1000);
-    if (cdEl) cdEl.textContent = pad(h) + ":" + pad(m) + ":" + pad(s);
+    var text = pad(h) + ":" + pad(m) + ":" + pad(s);
+    cdEls.forEach(function (el) { el.textContent = text; });
   }
 
   // ---------- clock + open/closed ----------
