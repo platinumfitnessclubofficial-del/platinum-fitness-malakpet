@@ -65,6 +65,19 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Movie opening title sequence (once per session, click to skip) -------- -->
+  <div class="title-curtain" id="title-curtain" aria-hidden="true">
+    <div class="curtain__bar curtain__bar--top"></div>
+    <div class="curtain__bar curtain__bar--bottom"></div>
+    <div class="curtain__cards">
+      <img class="curtain__logo" src="assets/img/logo.jpg" alt="" width="96" height="96">
+      <p class="curtain__pre">Platinum Fitness Club · Unisex · Malakpet</p>
+      <p class="curtain__title">Train where<br>Malakpet<br>gets stronger.</p>
+      <p class="curtain__sub">Today's spot offer · ends tonight</p>
+      <p class="curtain__skip">Tap to skip</p>
+    </div>
+  </div>
+
   <div class="scroll-progress" aria-hidden="true"><span data-progress></span></div>
 
   <!-- Announcement ------------------------------------------------------- -->
@@ -124,7 +137,7 @@
         <div class="hero-copy">
           <p class="eyebrow reveal">New Malakpet · Hyderabad · Unisex gym</p>
           <h1 class="reveal" data-delay="1">
-            Train where<br>
+            <span class="hero-line">Train where</span><br>
             <span class="hero-word">Malakpet</span><br>
             <span class="hero-outline">gets stronger.</span>
           </h1>

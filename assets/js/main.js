@@ -9,6 +9,31 @@
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var PHONE = "+917416769922";
 
+  /* Movie opening title sequence (once per session) ------------------------ */
+  (function () {
+    var curtain = document.getElementById("title-curtain");
+    if (!reduceMotion) document.body.classList.add("js-cine");
+    function cineIn() { document.body.classList.add("cine-in"); }
+    if (reduceMotion || !curtain) { cineIn(); return; }
+
+    var seen = false;
+    try { seen = sessionStorage.getItem("pfc-intro") === "1"; } catch (e) { seen = true; }
+    if (seen) { curtain.remove(); cineIn(); return; }
+    try { sessionStorage.setItem("pfc-intro", "1"); } catch (e) {}
+
+    var done = false;
+    function endIntro() {
+      if (done) return;
+      done = true;
+      curtain.classList.add("is-open");
+      cineIn();
+      window.setTimeout(function () { if (curtain.parentNode) curtain.remove(); }, 1100);
+    }
+    curtain.classList.add("is-on");
+    curtain.addEventListener("click", endIntro);
+    window.setTimeout(endIntro, 3600);
+  })();
+
   /* Header + scroll progress --------------------------------------------- */
   var header = document.querySelector(".site-header");
   var progress = document.querySelector("[data-progress]");
