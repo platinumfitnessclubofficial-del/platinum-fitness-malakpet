@@ -580,13 +580,17 @@ h4 { font-size: 0.95rem; }
 
 /* Offer ------------------------------------------------------------------- */
 .section--offer { background: var(--bg); overflow: hidden; }
+.offer-fx {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
 .offer-glow {
   position: absolute; left: 50%; top: -10%; width: 900px; height: 500px;
   transform: translateX(-50%);
   background: radial-gradient(ellipse, rgba(255, 92, 26, 0.16), transparent 65%);
   pointer-events: none;
 }
-.offer-head { max-width: 760px; margin-bottom: clamp(2.2rem, 4vw, 3.2rem); }
+.offer-head { max-width: 760px; margin-bottom: clamp(2.2rem, 4vw, 3.2rem); position: relative; z-index: 1; }
 .offer-head h2 { margin: 0.85rem 0 1rem; }
 .offer-head .lede strong { color: var(--ink); }
 
@@ -609,6 +613,21 @@ h4 { font-size: 0.95rem; }
     radial-gradient(80% 60% at 100% 0%, rgba(255, 92, 26, 0.24), transparent 62%),
     linear-gradient(170deg, #1c1c24, #101015);
   border-color: rgba(255, 92, 26, 0.5);
+}
+/* periodic shine sweep across the featured card */
+.offer-card--hero::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -70%;
+  width: 45%; transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  animation: cardShine 6.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes cardShine {
+  0%, 52% { left: -70%; }
+  100% { left: 135%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .offer-card--hero::after { animation: none; display: none; }
 }
 .offer-card__ribbon {
   position: absolute; top: 0; right: 0;

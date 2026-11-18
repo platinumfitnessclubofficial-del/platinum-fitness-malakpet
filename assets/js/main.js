@@ -123,64 +123,94 @@
     }
   }
 
-  /* Canvas embers (hero) --------------------------------------------------- */
-  var fxCanvas = document.querySelector(".hero-fx");
-  if (fxCanvas && !reduceMotion && fxCanvas.getContext) {
-    var fxCtx = fxCanvas.getContext("2d");
-    var fxDpr = Math.min(window.devicePixelRatio || 1, 2);
-    var fxDots = [];
-    var fxW = 0;
-    var fxH = 0;
+  /* Canvas embers (hero + offer sections) ---------------------------------- */
+  function mountEmbers(canvas, opts) {
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext("2d");
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var dots = [];
+    var W = 0;
+    var H = 0;
+    var density = opts.density || 10;
+    var maxDots = opts.maxDots || 150;
+    var minDots = opts.minDots || 70;
 
-    function fxSpawn(bottom) {
+    function spawn(bottom) {
+      var bokeh = Math.random() < 0.3;
       return {
-        x: Math.random() * fxW,
-        y: bottom ? fxH + 12 : Math.random() * fxH,
-        r: 0.8 + Math.random() * 2.2,
-        vy: 0.14 + Math.random() * 0.42,
+        x: Math.random() * W,
+        y: bottom ? H + 20 : Math.random() * H,
+        r: bokeh ? 3 + Math.random() * 7 : 0.9 + Math.random() * 2,
+        vy: bokeh ? 0.05 + Math.random() * 0.16 : 0.2 + Math.random() * 0.55,
         sway: Math.random() * Math.PI * 2,
         swaySpeed: 0.002 + Math.random() * 0.008,
-        swayAmp: 8 + Math.random() * 20,
-        alpha: 0.1 + Math.random() * 0.38,
+        swayAmp: 10 + Math.random() * 26,
+        alpha: bokeh ? 0.16 + Math.random() * 0.2 : 0.3 + Math.random() * 0.45,
         twinkle: Math.random() * Math.PI * 2,
-        orange: Math.random() < 0.72
+        orange: Math.random() < (opts.orangeRatio || 0.75),
+        bokeh: bokeh
       };
     }
 
-    function fxResize() {
-      fxW = fxCanvas.clientWidth;
-      fxH = fxCanvas.clientHeight;
-      fxCanvas.width = Math.round(fxW * fxDpr);
-      fxCanvas.height = Math.round(fxH * fxDpr);
-      fxCtx.setTransform(fxDpr, 0, 0, fxDpr, 0, 0);
-      var target = Math.round(Math.min(90, Math.max(34, fxW / 16)));
-      while (fxDots.length < target) fxDots.push(fxSpawn(false));
-      if (fxDots.length > target) fxDots.length = target;
+    function resize() {
+      W = canvas.clientWidth || canvas.parentNode.clientWidth || window.innerWidth;
+      H = canvas.clientHeight || canvas.parentNode.clientHeight || window.innerHeight;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var target = Math.round(Math.min(maxDots, Math.max(minDots, W / density)));
+      while (dots.length < target) dots.push(spawn(false));
+      if (dots.length > target) dots.length = target;
     }
 
-    function fxFrame() {
+    function frame() {
+      if (canvas.clientWidth && (canvas.clientWidth !== W || canvas.clientHeight !== H)) resize();
       if (!document.hidden) {
-        fxCtx.clearRect(0, 0, fxW, fxH);
-        for (var i = 0; i < fxDots.length; i++) {
-          var d = fxDots[i];
+        ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < dots.length; i++) {
+          var d = dots[i];
           d.y -= d.vy;
           d.sway += d.swaySpeed * 16;
-          d.twinkle += 0.028;
-          if (d.y < -14) fxDots[i] = fxSpawn(true);
-          fxCtx.globalAlpha = Math.max(0, d.alpha * (0.62 + 0.38 * Math.sin(d.twinkle)));
-          fxCtx.fillStyle = d.orange ? "#ff5c1a" : "#ffffff";
-          fxCtx.beginPath();
-          fxCtx.arc(d.x + Math.sin(d.sway) * d.swayAmp, d.y, d.r, 0, Math.PI * 2);
-          fxCtx.fill();
+          d.twinkle += 0.03;
+          if (d.y < -24) dots[i] = spawn(true);
+          var px = d.x + Math.sin(d.sway) * d.swayAmp;
+          var a = Math.max(0, d.alpha * (0.6 + 0.4 * Math.sin(d.twinkle)));
+          if (d.bokeh) {
+            var gr = ctx.createRadialGradient(px, d.y, 0, px, d.y, d.r * 3.2);
+            var col = d.orange ? "255,92,26" : "255,255,255";
+            gr.addColorStop(0, "rgba(" + col + "," + a.toFixed(3) + ")");
+            gr.addColorStop(1, "rgba(" + col + ",0)");
+            ctx.fillStyle = gr;
+            ctx.beginPath();
+            ctx.arc(px, d.y, d.r * 3.2, 0, Math.PI * 2);
+            ctx.fill();
+          } else {
+            ctx.globalAlpha = a;
+            ctx.shadowColor = d.orange ? "rgba(255,92,26,.95)" : "rgba(255,255,255,.85)";
+            ctx.shadowBlur = d.r * 6;
+            ctx.fillStyle = d.orange ? "#ff6a2b" : "#ffffff";
+            ctx.beginPath();
+            ctx.arc(px, d.y, d.r, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
-        fxCtx.globalAlpha = 1;
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
       }
-      requestAnimationFrame(fxFrame);
+      requestAnimationFrame(frame);
     }
 
-    fxResize();
-    window.addEventListener("resize", fxResize);
-    requestAnimationFrame(fxFrame);
+    resize();
+    window.addEventListener("resize", resize);
+    requestAnimationFrame(frame);
+  }
+
+  if (!reduceMotion) {
+    document.querySelectorAll(".hero-fx, .offer-fx").forEach(function (cv) {
+      mountEmbers(cv, cv.classList.contains("offer-fx")
+        ? { density: 12, maxDots: 120, minDots: 55, orangeRatio: 0.85 }
+        : {});
+    });
   }
 
   /* Daily countdown ------------------------------------------------------- */
