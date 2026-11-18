@@ -56,6 +56,9 @@
     background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
     opacity:.35;pointer-events:none;
   }
+  .fx{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+  }
 
   .progress{
     position:absolute;top:0;left:0;height:.45vmin;width:0;
@@ -305,6 +308,7 @@
 <body>
 <div class="stage">
   <div class="progress" id="progress"></div>
+  <canvas class="fx" id="fx" aria-hidden="true"></canvas>
 
   <main class="deck">
 
@@ -551,6 +555,70 @@
     clearTimeout(cursorTimer);
     cursorTimer = setTimeout(function () { document.body.classList.remove("show-cursor"); }, 3000);
   });
+
+  // ---------- ember canvas (background effects) ----------
+  (function () {
+    var cv = document.getElementById("fx");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!cv || reduce || !cv.getContext) return;
+    var ctx = cv.getContext("2d");
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var dots = [];
+    var W = 0, H = 0;
+
+    function spawn(bottom) {
+      return {
+        x: Math.random() * W,
+        y: bottom ? H + 14 : Math.random() * H,
+        r: 0.9 + Math.random() * 2.6,
+        vy: 0.18 + Math.random() * 0.55,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.002 + Math.random() * 0.009,
+        swayAmp: 10 + Math.random() * 26,
+        alpha: 0.12 + Math.random() * 0.4,
+        twinkle: Math.random() * Math.PI * 2,
+        hot: Math.random() < 0.7
+      };
+    }
+
+    function resize() {
+      W = cv.clientWidth;
+      H = cv.clientHeight;
+      cv.width = Math.round(W * dpr);
+      cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var target = Math.round(Math.min(110, Math.max(40, W / 16)));
+      while (dots.length < target) dots.push(spawn(false));
+      if (dots.length > target) dots.length = target;
+    }
+
+    function frame() {
+      if (!document.hidden) {
+        ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < dots.length; i++) {
+          var d = dots[i];
+          d.y -= d.vy;
+          d.sway += d.swaySpeed * 16;
+          d.twinkle += 0.03;
+          if (d.y < -16) dots[i] = spawn(true);
+          ctx.globalAlpha = Math.max(0, d.alpha * (0.6 + 0.4 * Math.sin(d.twinkle)));
+          ctx.shadowColor = d.hot ? "rgba(255,92,26,.9)" : "rgba(255,255,255,.7)";
+          ctx.shadowBlur = d.r * 4;
+          ctx.fillStyle = d.hot ? "#ff5c1a" : "#ffffff";
+          ctx.beginPath();
+          ctx.arc(d.x + Math.sin(d.sway) * d.swayAmp, d.y, d.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+      }
+      requestAnimationFrame(frame);
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+    requestAnimationFrame(frame);
+  })();
 
   // ---------- rotating member reviews (8 reviews, 2 at a time) ----------
   var reviewData = [

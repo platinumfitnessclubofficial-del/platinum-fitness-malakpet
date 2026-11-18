@@ -123,6 +123,66 @@
     }
   }
 
+  /* Canvas embers (hero) --------------------------------------------------- */
+  var fxCanvas = document.querySelector(".hero-fx");
+  if (fxCanvas && !reduceMotion && fxCanvas.getContext) {
+    var fxCtx = fxCanvas.getContext("2d");
+    var fxDpr = Math.min(window.devicePixelRatio || 1, 2);
+    var fxDots = [];
+    var fxW = 0;
+    var fxH = 0;
+
+    function fxSpawn(bottom) {
+      return {
+        x: Math.random() * fxW,
+        y: bottom ? fxH + 12 : Math.random() * fxH,
+        r: 0.8 + Math.random() * 2.2,
+        vy: 0.14 + Math.random() * 0.42,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.002 + Math.random() * 0.008,
+        swayAmp: 8 + Math.random() * 20,
+        alpha: 0.1 + Math.random() * 0.38,
+        twinkle: Math.random() * Math.PI * 2,
+        orange: Math.random() < 0.72
+      };
+    }
+
+    function fxResize() {
+      fxW = fxCanvas.clientWidth;
+      fxH = fxCanvas.clientHeight;
+      fxCanvas.width = Math.round(fxW * fxDpr);
+      fxCanvas.height = Math.round(fxH * fxDpr);
+      fxCtx.setTransform(fxDpr, 0, 0, fxDpr, 0, 0);
+      var target = Math.round(Math.min(90, Math.max(34, fxW / 16)));
+      while (fxDots.length < target) fxDots.push(fxSpawn(false));
+      if (fxDots.length > target) fxDots.length = target;
+    }
+
+    function fxFrame() {
+      if (!document.hidden) {
+        fxCtx.clearRect(0, 0, fxW, fxH);
+        for (var i = 0; i < fxDots.length; i++) {
+          var d = fxDots[i];
+          d.y -= d.vy;
+          d.sway += d.swaySpeed * 16;
+          d.twinkle += 0.028;
+          if (d.y < -14) fxDots[i] = fxSpawn(true);
+          fxCtx.globalAlpha = Math.max(0, d.alpha * (0.62 + 0.38 * Math.sin(d.twinkle)));
+          fxCtx.fillStyle = d.orange ? "#ff5c1a" : "#ffffff";
+          fxCtx.beginPath();
+          fxCtx.arc(d.x + Math.sin(d.sway) * d.swayAmp, d.y, d.r, 0, Math.PI * 2);
+          fxCtx.fill();
+        }
+        fxCtx.globalAlpha = 1;
+      }
+      requestAnimationFrame(fxFrame);
+    }
+
+    fxResize();
+    window.addEventListener("resize", fxResize);
+    requestAnimationFrame(fxFrame);
+  }
+
   /* Daily countdown ------------------------------------------------------- */
   var hourEls = document.querySelectorAll('[data-cd="hours"]');
   var minuteEls = document.querySelectorAll('[data-cd="minutes"]');
