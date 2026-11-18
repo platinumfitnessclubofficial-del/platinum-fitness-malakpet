@@ -87,9 +87,104 @@
     from{opacity:0;filter:blur(14px);letter-spacing:.16em}
     to{opacity:1;filter:blur(0);letter-spacing:.005em}
   }
-  @media (prefers-reduced-motion: reduce){
-    .slide.is-active h1, .slide.is-active h2{animation:none}
+  /* staggered film-credit reveals on slide content */
+  .slide.is-active .eyebrow{animation:creditIn .8s ease .3s both}
+  .slide.is-active .price-row,.slide.is-active .price-sub,.slide.is-active .offer-line,
+  .slide.is-active .pill,.slide.is-active .bomb,.slide.is-active .rate-list,
+  .slide.is-active .trial-card,.slide.is-active .score,.slide.is-active .review-col,
+  .slide.is-active .review-chips,.slide.is-active .choose-grid{
+    animation:riseIn .95s cubic-bezier(.2,.7,.2,1) .55s both;
   }
+  .slide.is-active .rate-row{animation:riseIn .8s cubic-bezier(.2,.7,.2,1) both}
+  .slide.is-active .rate-row:nth-child(1){animation-delay:.65s}
+  .slide.is-active .rate-row:nth-child(2){animation-delay:.73s}
+  .slide.is-active .rate-row:nth-child(3){animation-delay:.81s}
+  .slide.is-active .rate-row:nth-child(4){animation-delay:.89s}
+  .slide.is-active .serv{animation:riseIn .8s cubic-bezier(.2,.7,.2,1) both}
+  .slide.is-active .serv:nth-child(1){animation-delay:.6s}
+  .slide.is-active .serv:nth-child(2){animation-delay:.68s}
+  .slide.is-active .serv:nth-child(3){animation-delay:.76s}
+  .slide.is-active .serv:nth-child(4){animation-delay:.84s}
+  .slide.is-active .serv:nth-child(5){animation-delay:.92s}
+  .slide.is-active .serv:nth-child(6){animation-delay:1s}
+  .slide.is-active .choose{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) both}
+  .slide.is-active .choose:nth-child(1){animation-delay:.65s}
+  .slide.is-active .choose:nth-child(2){animation-delay:.77s}
+  .slide.is-active .choose:nth-child(3){animation-delay:.89s}
+  .slide.is-active .choose:nth-child(4){animation-delay:1.01s}
+  @keyframes creditIn{
+    from{opacity:0;letter-spacing:.3em}
+    to{opacity:1;letter-spacing:.28em}
+  }
+  @keyframes riseIn{
+    from{opacity:0;transform:translateY(2.4vmin);filter:blur(6px)}
+    to{opacity:1;transform:none;filter:blur(0)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .slide.is-active h1, .slide.is-active h2, .slide.is-active .eyebrow,
+    .slide.is-active .rate-row, .slide.is-active .serv, .slide.is-active .choose,
+    .slide.is-active .price-row,.slide.is-active .price-sub,.slide.is-active .offer-line,
+    .slide.is-active .pill,.slide.is-active .bomb,.slide.is-active .rate-list,
+    .slide.is-active .trial-card,.slide.is-active .score,.slide.is-active .review-col,
+    .slide.is-active .review-chips,.slide.is-active .choose-grid{animation:none}
+  }
+
+  /* projector glint sweeping the stage */
+  .glint{
+    position:absolute;top:-12%;bottom:-12%;left:-32%;width:22%;
+    transform:skewX(-16deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.075),transparent);
+    z-index:30;pointer-events:none;
+    animation:glintSweep 9s ease-in-out 4.5s infinite;
+  }
+  @keyframes glintSweep{0%,66%{left:-32%}100%{left:134%}}
+  @media (prefers-reduced-motion: reduce){.glint{display:none}}
+
+  /* movie opening title sequence (plays once per load) */
+  .tv-intro{position:absolute;inset:0;z-index:100;display:none;cursor:pointer}
+  .tv-intro.is-on{display:block}
+  .tv-intro__bar{
+    position:absolute;left:0;width:100%;height:50.5%;background:#050507;
+    transition:transform 1s cubic-bezier(.7,0,.3,1);
+  }
+  .tv-intro__bar--top{top:0}
+  .tv-intro__bar--bottom{bottom:0}
+  .tv-intro.is-open .tv-intro__bar--top{transform:translateY(-102%)}
+  .tv-intro.is-open .tv-intro__bar--bottom{transform:translateY(102%)}
+  .tv-intro__cards{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    transition:opacity .6s ease;
+  }
+  .tv-intro.is-open .tv-intro__cards{opacity:0}
+  .tv-intro__logo{
+    width:11vmin;height:11vmin;border-radius:2.2vmin;object-fit:cover;
+    box-shadow:0 1.6vmin 5vmin rgba(0,0,0,.6),0 0 0 .12vmin rgba(255,92,26,.35);
+    margin-bottom:2.4vmin;
+  }
+  .tv-intro.is-on .tv-intro__logo{animation:tLogo 1s cubic-bezier(.2,.7,.2,1) .15s both}
+  @keyframes tLogo{from{opacity:0;transform:scale(.72);filter:blur(10px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+  .tv-intro__pre{
+    font-size:1.5vmin;font-weight:800;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:2vmin;
+  }
+  .tv-intro.is-on .tv-intro__pre{animation:tFade .7s ease .8s both}
+  @keyframes tFade{from{opacity:0}to{opacity:1}}
+  .tv-intro__title{
+    font-family:var(--font-display);font-weight:400;line-height:.98;
+    font-size:7.2vmin;color:#fff;text-transform:uppercase;letter-spacing:.2em;
+  }
+  .tv-intro.is-on .tv-intro__title{animation:tTrack 1.3s var(--ease) 1.2s both}
+  @keyframes tTrack{
+    from{opacity:0;filter:blur(14px);letter-spacing:.3em}
+    to{opacity:1;filter:blur(0);letter-spacing:.02em}
+  }
+  .tv-intro__sub{
+    margin-top:2.2vmin;font-size:1.7vmin;font-weight:800;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--orange);
+  }
+  .tv-intro.is-on .tv-intro__sub{animation:tFade .7s ease 2.2s both}
+  @media (prefers-reduced-motion: reduce){.tv-intro{display:none!important}}
 
   /* ---------- type ---------- */
   .eyebrow{
@@ -311,16 +406,78 @@
   .dots button.is-active{width:3.4vmin;background:var(--orange)}
 
   @media (max-aspect-ratio: 4/3){
-    .timer-grid,.prices,.reviews{grid-template-columns:1fr;gap:3vmin}
+    .timer-grid,.prices,.reviews,.choose-grid{grid-template-columns:1fr;gap:3vmin}
     .serv-grid{grid-template-columns:1fr 1fr}
     .bomb__digits{font-size:18vmin}
   }
+
+  /* why choose us slide */
+  .choose-wrap{width:100%}
+  .choose-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:2.2vmin;
+    margin-top:3.4vmin;
+  }
+  .choose{
+    background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.08);
+    border-radius:1.6vmin;padding:2.6vmin 2.8vmin;
+    display:flex;flex-direction:column;gap:1.2vmin;
+    transition:border-color .4s ease,transform .4s ease;
+  }
+  .choose:hover{border-color:rgba(255,92,26,.35);transform:translateY(-.5vmin)}
+  .choose svg{width:4.2vmin;height:4.2vmin;color:var(--orange)}
+  .choose strong{font-size:2.5vmin;color:#fff;letter-spacing:.02em;font-weight:800}
+  .choose span{font-size:1.9vmin;line-height:1.5;color:var(--muted)}
+  .choose em{
+    font-size:1.7vmin;line-height:1.5;color:#cfcfd6;font-style:italic;
+    border-top:.1vmin solid rgba(255,255,255,.09);padding-top:1.2vmin;margin-top:auto;
+  }
+
+  /* brand / logo slide (end credits) */
+  .slide--brand{justify-content:center}
+  .brand-wrap{text-align:center;margin:auto}
+  .brand-slide__logo{
+    width:16vmin;height:16vmin;border-radius:3.2vmin;object-fit:cover;
+    box-shadow:0 1.8vmin 6vmin rgba(0,0,0,.55),0 0 0 .14vmin rgba(255,92,26,.3);
+    margin-bottom:3vmin;
+  }
+  .slide.is-active .brand-slide__logo{animation:logoFloat 6s ease-in-out 1.4s infinite alternate}
+  @keyframes logoFloat{to{transform:translateY(-1.4vmin)}}
+  .brand-slide__name{font-size:6.4vmin;color:#fff}
+  .brand-slide__name .accent{color:var(--orange)}
+  .brand-slide__kicker{
+    margin-top:2.4vmin;font-size:1.6vmin;font-weight:800;
+    letter-spacing:.32em;text-transform:uppercase;color:var(--muted);
+  }
+  .brand-slide__tag{
+    margin-top:2vmin;font-size:2.4vmin;font-weight:800;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--orange);
+  }
+  .brand-slide__contact{
+    margin-top:3vmin;font-size:1.8vmin;line-height:1.9;
+    letter-spacing:.06em;color:var(--muted);
+  }
+  .slide.is-active .brand-slide__kicker{animation:creditIn .8s ease .8s both}
+  .slide.is-active .brand-slide__tag{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) .95s both}
+  .slide.is-active .brand-slide__contact{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) 1.1s both}
 </style>
 </head>
 <body>
 <div class="stage">
   <div class="progress" id="progress"></div>
   <canvas class="fx" id="fx" aria-hidden="true"></canvas>
+  <div class="glint" aria-hidden="true"></div>
+
+  <!-- movie opening title sequence, once per load -->
+  <div class="tv-intro" id="tv-intro" aria-hidden="true">
+    <div class="tv-intro__bar tv-intro__bar--top"></div>
+    <div class="tv-intro__bar tv-intro__bar--bottom"></div>
+    <div class="tv-intro__cards">
+      <img class="tv-intro__logo" src="../assets/img/logo.jpg" alt="">
+      <p class="tv-intro__pre">Platinum Fitness Club · Unisex · Malakpet</p>
+      <p class="tv-intro__title">Train where<br>Malakpet<br>gets stronger.</p>
+      <p class="tv-intro__sub">Today's spot offer · ends tonight</p>
+    </div>
+  </div>
 
   <main class="deck">
 
@@ -393,7 +550,45 @@
       </div>
     </section>
 
-    <!-- 3 · SERVICES -->
+    <!-- 3 · WHY PROFESSIONALS, DOCTORS & FAMILIES CHOOSE US -->
+    <section class="slide" aria-label="Why professionals, doctors and families choose us">
+      <div class="choose-wrap">
+        <p class="eyebrow">Trusted in New Malakpet</p>
+        <h2>Why professionals, doctors<br><span class="accent">&amp; families choose us.</span></h2>
+
+        <div class="choose-grid">
+          <div class="choose">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3v6a4 4 0 008 0V3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M10 13v3a5 5 0 005 5 4 4 0 004-4v-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="19" cy="13" r="2" stroke="currentColor" stroke-width="1.7"/><path d="M6 3H4m10 0h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <strong>Doctors &amp; hygiene-first</strong>
+            <span>Showers cleaned through the day, lockers that work, weekly steam bath to recover.</span>
+            <em>“I finish a session and reach the hospital without going home.” — Dr. Sneha M.</em>
+          </div>
+
+          <div class="choose">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M9 7.5V6a3 3 0 016 0v1.5" stroke="currentColor" stroke-width="1.7"/><path d="M3 12.5h18" stroke="currentColor" stroke-width="1.7"/></svg>
+            <strong>Working professionals</strong>
+            <span>Open 6 AM to 11 PM, Mon–Sat. The floor stays calm and uncrowded even at 10 PM.</span>
+            <em>“The floor is calm even at 10.” — Vikram K.</em>
+          </div>
+
+          <div class="choose">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8.5" cy="7.5" r="3" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19.5c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M14.5 19.5c.4-2.3 2-4 4.2-4 1.4 0 2.6.6 3.4 1.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <strong>Families &amp; couples</strong>
+            <span>Unisex without being uncomfortable. Husbands, wives and friends train together.</span>
+            <em>“It's unisex without being uncomfortable.” — Farah &amp; Imran</em>
+          </div>
+
+          <div class="choose">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8.5c3.5-2 12.5-2 16 0M4 15.5c3.5 2 12.5 2 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M4 5v14M20 5v14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <strong>Beginners &amp; students</strong>
+            <span>Written exercise card in week one, trainer on the floor, budget rates, late hours.</span>
+            <em>“This is how a gym should treat beginners.” — Shruthi S.</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · SERVICES -->
     <section class="slide" aria-label="Services and facilities">
       <div class="services">
         <p class="eyebrow">What you get</p>
@@ -471,6 +666,17 @@
       </div>
     </section>
 
+    <!-- 6 · BRAND / LOGO (end-credits style) -->
+    <section class="slide slide--brand" aria-label="Platinum Fitness Club">
+      <div class="brand-wrap">
+        <img class="brand-slide__logo" src="../assets/img/logo.jpg" alt="Platinum Fitness Club Unisex logo">
+        <h2 class="brand-slide__name">Platinum<br><span class="accent">Fitness Club</span></h2>
+        <p class="brand-slide__kicker">Unisex · New Malakpet · Hyderabad</p>
+        <p class="brand-slide__tag">Train where Malakpet gets stronger.</p>
+        <p class="brand-slide__contact">★ 4.8 / 5 on Justdial · Call 74167 69922<br>Opp. Zudio · Metro Pillar No. 1456 · Open 6 AM – 11 PM · Sunday closed</p>
+      </div>
+    </section>
+
   </main>
 
   <footer class="tv-foot">
@@ -491,6 +697,23 @@
 <script>
 (function () {
   "use strict";
+
+  /* movie opening title sequence — plays once per load, click to skip */
+  (function () {
+    var intro = document.getElementById("tv-intro");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!intro || reduce) { if (intro) intro.remove(); return; }
+    intro.classList.add("is-on");
+    var done = false;
+    function end() {
+      if (done) return;
+      done = true;
+      intro.classList.add("is-open");
+      window.setTimeout(function () { if (intro.parentNode) intro.remove(); }, 1200);
+    }
+    intro.addEventListener("click", end);
+    window.setTimeout(end, 3800);
+  })();
 
   var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
   var dotsWrap = document.getElementById("dots");
