@@ -79,7 +79,7 @@ platinum-malakpet/
 2. Sticky header with logo and call CTA
 3. Hero with photo collage and member badges
 4. Scrolling facility marquee
-5. Stats (500+ members, 5,500 sq ft, 4.8 rating, 17 hours)
+5. Stats (500+ members, 8,000 sq ft, 4.8 rating, 17 hours)
 6. Facilities grid (equipment, trainer, steam, lockers, showers, exercise card, AC)
 7. Photo gallery with keyboard-accessible lightbox
 8. Anniversary offer (2+2 months at ₹9,499) + big countdown + 10-slot batch
