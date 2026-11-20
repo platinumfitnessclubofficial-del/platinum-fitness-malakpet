@@ -702,7 +702,9 @@
   (function () {
     var intro = document.getElementById("tv-intro");
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!intro || reduce) { if (intro) intro.remove(); return; }
+    var kiosk = false;
+    try { kiosk = new URLSearchParams(location.search).get("kiosk") === "1" || location.hash === "#kiosk"; } catch (e) {}
+    if (!intro || reduce || kiosk) { if (intro) intro.remove(); return; }
     intro.classList.add("is-on");
     var done = false;
     function end() {
@@ -710,10 +712,10 @@
       done = true;
       intro.classList.add("is-open");
       try { if (document.fullscreenElement === null && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function(){}); } catch (e) {}
-      window.setTimeout(function () { if (intro.parentNode) intro.remove(); }, 1200);
+      window.setTimeout(function () { if (intro.parentNode) intro.remove(); }, 900);
     }
     intro.addEventListener("click", end);
-    window.setTimeout(end, 3800);
+    window.setTimeout(end, 2800);
   })();
 
   var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
