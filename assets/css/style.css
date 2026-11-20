@@ -947,44 +947,6 @@ a.info-card:hover { border-color: rgba(255,92,26,0.4); transform: translateY(-2p
   .why-grid { grid-template-columns: 1fr; }
 }
 
-/* Live TV board promo -------------------------------------------------- */
-.section--tv { background: var(--surface); }
-.tv-promo {
-  display: grid; grid-template-columns: 1.3fr 0.7fr; gap: clamp(1.6rem, 4vw, 3rem);
-  align-items: start;
-}
-.tv-promo__list {
-  list-style: none; counter-reset: tv; padding: 0; margin: 0;
-  display: grid; gap: 0.9rem;
-}
-.tv-promo__list li {
-  counter-increment: tv;
-  display: grid; grid-template-columns: 2.2rem 1fr; gap: 0.8rem;
-  align-items: start; font-size: 0.92rem; line-height: 1.6; color: var(--muted);
-}
-.tv-promo__list li::before {
-  content: counter(tv); width: 2.2rem; height: 2.2rem; border-radius: 50%;
-  background: rgba(255, 92, 26, 0.12); border: 1px solid rgba(255, 92, 26, 0.3);
-  color: var(--orange); font-weight: 800; font-size: 0.85rem;
-  display: grid; place-items: center; flex-shrink: 0;
-}
-.tv-promo__list strong { color: var(--ink); font-weight: 800; }
-.tv-promo__list a { color: var(--orange); font-weight: 700; }
-.tv-promo__actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1.4rem; }
-.tv-promo__note { margin-top: 1rem; font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-.tv-promo__qr {
-  display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
-  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 1.6rem 1.4rem; text-align: center;
-}
-.tv-promo__qr img { border-radius: 8px; background: #fff; padding: 6px; }
-.tv-promo__qr p { font-size: 0.78rem; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
-.tv-promo__qr--small { font-size: 0.7rem !important; opacity: 0.7; }
-@media (max-width: 760px) {
-  .tv-promo { grid-template-columns: 1fr; }
-  .tv-promo__qr { order: -1; }
-}
-
 .hours-box { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem 1.15rem; }
 .hours-box h3 { font-size: 0.72rem; letter-spacing: 0.16em; color: var(--muted); margin-bottom: 0.7rem; }
 .hours-box ul { display: grid; gap: 0.5rem; }
