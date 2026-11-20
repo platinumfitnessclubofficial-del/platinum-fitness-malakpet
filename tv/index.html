@@ -709,6 +709,7 @@
       if (done) return;
       done = true;
       intro.classList.add("is-open");
+      try { if (document.fullscreenElement === null && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function(){}); } catch (e) {}
       window.setTimeout(function () { if (intro.parentNode) intro.remove(); }, 1200);
     }
     intro.addEventListener("click", end);
@@ -720,6 +721,22 @@
   var progress = document.getElementById("progress");
   var DURATION = 13000;
   var index = 0;
+
+  /* one-tap fullscreen on a TV browser (first interaction) */
+  (function () {
+    var asked = false;
+    function goFs() {
+      if (asked) return;
+      asked = true;
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(function () {});
+      }
+      document.removeEventListener("click", goFs);
+      document.removeEventListener("touchstart", goFs);
+    }
+    document.addEventListener("click", goFs);
+    document.addEventListener("touchstart", goFs);
+  })();
   var timer = null;
   var paused = false;
 
