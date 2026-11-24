@@ -50,6 +50,18 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
 
+  /* Hero background parallax --------------------------------------------- */
+  (function () {
+    var bg = document.querySelector(".hero__bg img");
+    if (!bg || reduceMotion) return;
+    function tick() {
+      var y = window.scrollY || window.pageYOffset || 0;
+      bg.style.transform = "translate3d(0, " + (y * 0.28).toFixed(1) + "px, 0)";
+    }
+    window.addEventListener("scroll", tick, { passive: true });
+    tick();
+  })();
+
   /* Mobile navigation ----------------------------------------------------- */
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.getElementById("primary-nav");
@@ -202,7 +214,7 @@
           var a = Math.max(0, d.alpha * (0.6 + 0.4 * Math.sin(d.twinkle)));
           if (d.bokeh) {
             var gr = ctx.createRadialGradient(px, d.y, 0, px, d.y, d.r * 3.2);
-            var col = d.orange ? "255,92,26" : "255,255,255";
+            var col = d.orange ? "59,130,246" : "255,255,255";
             gr.addColorStop(0, "rgba(" + col + "," + a.toFixed(3) + ")");
             gr.addColorStop(1, "rgba(" + col + ",0)");
             ctx.fillStyle = gr;
@@ -211,9 +223,9 @@
             ctx.fill();
           } else {
             ctx.globalAlpha = a;
-            ctx.shadowColor = d.orange ? "rgba(255,92,26,.95)" : "rgba(255,255,255,.85)";
+            ctx.shadowColor = d.orange ? "rgba(59,130,246,.95)" : "rgba(255,255,255,.85)";
             ctx.shadowBlur = d.r * 6;
-            ctx.fillStyle = d.orange ? "#ff6a2b" : "#ffffff";
+            ctx.fillStyle = d.orange ? "#60a5fa" : "#ffffff";
             ctx.beginPath();
             ctx.arc(px, d.y, d.r, 0, Math.PI * 2);
             ctx.fill();
@@ -235,6 +247,9 @@
       mountEmbers(cv, cv.classList.contains("offer-fx")
         ? { density: 12, maxDots: 120, minDots: 55, orangeRatio: 0.85 }
         : {});
+    });
+    document.querySelectorAll(".section-fx").forEach(function (cv) {
+      mountEmbers(cv, { density: 14, maxDots: 90, minDots: 40, orangeRatio: 0.6 });
     });
   }
 

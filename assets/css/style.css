@@ -110,6 +110,8 @@ h4 { font-size: 0.95rem; }
 /* Layout ------------------------------------------------------------------ */
 .container { width: min(var(--container), 100% - 2.6rem); margin-inline: auto; }
 .section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
+.section-fx { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.section .container { position: relative; z-index: 1; }
 .section--tight { padding: clamp(2.6rem, 5vw, 4rem) 0; }
 
 .section-head { max-width: 700px; margin-bottom: clamp(2rem, 4vw, 3.4rem); }
@@ -286,6 +288,20 @@ h4 { font-size: 0.95rem; }
     var(--bg);
   padding: clamp(1.8rem, 3.6vw, 3rem) 0 clamp(2rem, 4vw, 3rem);
 }
+.hero__bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.hero__bg img {
+  width: 100%; height: 130%; object-fit: cover;
+  filter: blur(2px) brightness(0.35) saturate(1.1);
+  transform: translateY(-10%);
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+.hero__bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(11, 18, 32, 0.55) 0%, rgba(11, 18, 32, 0.85) 100%);
+}
 .hero__glow {
   position: absolute; width: 620px; height: 620px; right: -220px; top: -220px;
   background: radial-gradient(circle, rgba(59, 130, 246, 0.24), transparent 62%);
@@ -305,11 +321,11 @@ h4 { font-size: 0.95rem; }
   -webkit-mask-image: radial-gradient(70% 60% at 50% 30%, #000 20%, transparent 80%);
 }
 .hero-fx {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
 }
 
 .hero-inner {
-  position: relative; z-index: 1;
+  position: relative; z-index: 2;
   display: grid; grid-template-columns: 1.02fr 0.98fr;
   gap: clamp(2rem, 5vw, 4.5rem); align-items: center;
   padding-top: 0;
@@ -945,6 +961,38 @@ a.info-card:hover { border-color: rgba(59,130,246,0.4); transform: translateY(-2
 }
 @media (max-width: 760px) {
   .why-grid { grid-template-columns: 1fr; }
+}
+
+/* Motion & micro-interactions ------------------------------------------ */
+@media (hover: hover) {
+  .rate, .offer-card, .why-card, .info-card, .review {
+    transition: transform 0.4s var(--ease), border-color 0.3s ease, box-shadow 0.4s var(--ease), background-color 0.3s ease;
+  }
+  .rate:hover, .offer-card:hover, .why-card:hover, .info-card:hover, .review:hover {
+    transform: translateY(-6px);
+  }
+  .rate img, .offer-card img, .why-card img, .info-card img, .review img, .shot img {
+    transition: transform 0.6s var(--ease);
+  }
+  .rate:hover img, .offer-card:hover img, .why-card:hover img, .info-card:hover img, .review:hover img, .shot:hover img {
+    transform: scale(1.06);
+  }
+  .btn, .btn--block, .btn--ghost {
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background-color 0.2s ease;
+  }
+  .btn:hover, .btn--block:hover, .btn--ghost:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+  .btn:active, .btn--block:active, .btn--ghost:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rate, .offer-card, .why-card, .info-card, .review, .btn, .btn--block, .btn--ghost,
+  .rate img, .offer-card img, .why-card img, .info-card img, .review img, .shot img {
+    transition: none !important;
+  }
+  .hero__bg img { transition: none; transform: none; }
 }
 
 .hours-box { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem 1.15rem; }
