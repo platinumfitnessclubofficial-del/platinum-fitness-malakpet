@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://platinumfitnessclubofficial-del.github.io/platinum-fitness-malakpet/sitemap.xml
