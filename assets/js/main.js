@@ -314,23 +314,24 @@
   window.addEventListener("scroll", syncActiveNav, { passive: true });
   window.addEventListener("resize", syncActiveNav);
 
-  /* Hero tilt ------------------------------------------------------------- */
-  var tiltTarget = document.querySelector("[data-tilt]");
-  if (tiltTarget && finePointer && !reduceMotion) {
-    var frame = null;
-    tiltTarget.addEventListener("pointermove", function (e) {
-      if (frame) return;
-      frame = requestAnimationFrame(function () {
-        var rect = tiltTarget.getBoundingClientRect();
-        var x = (e.clientX - rect.left) / rect.width - 0.5;
-        var y = (e.clientY - rect.top) / rect.height - 0.5;
-        tiltTarget.style.transform =
-          "perspective(900px) rotateY(" + (x * 5).toFixed(2) + "deg) rotateX(" + (-y * 5).toFixed(2) + "deg)";
-        frame = null;
+  /* 3D tilt on cards -------------------------------------------------------- */
+  if (finePointer && !reduceMotion) {
+    document.querySelectorAll("[data-tilt]").forEach(function (tiltTarget) {
+      var frame = null;
+      tiltTarget.addEventListener("pointermove", function (e) {
+        if (frame) return;
+        frame = requestAnimationFrame(function () {
+          var rect = tiltTarget.getBoundingClientRect();
+          var x = (e.clientX - rect.left) / rect.width - 0.5;
+          var y = (e.clientY - rect.top) / rect.height - 0.5;
+          tiltTarget.style.transform =
+            "perspective(900px) rotateY(" + (x * 6).toFixed(2) + "deg) rotateX(" + (-y * 6).toFixed(2) + "deg) translateZ(4px)";
+          frame = null;
+        });
       });
-    });
-    tiltTarget.addEventListener("pointerleave", function () {
-      tiltTarget.style.transform = "";
+      tiltTarget.addEventListener("pointerleave", function () {
+        tiltTarget.style.transform = "";
+      });
     });
   }
 

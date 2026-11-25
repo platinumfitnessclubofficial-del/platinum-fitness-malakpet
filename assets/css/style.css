@@ -997,6 +997,25 @@ a.info-card:hover { border-color: rgba(212,175,55,0.4); transform: translateY(-2
   .hero__bg img { transition: none; transform: none; }
 }
 
+/* 3D card entrances ---------------------------------------------------- */
+.js-cine .rate.reveal, .js-cine .offer-card.reveal, .js-cine .why-card.reveal,
+.js-cine .info-card.reveal, .js-cine .review.reveal {
+  transform: perspective(1100px) rotateX(10deg) translateY(28px);
+  transform-origin: center bottom;
+}
+.js-cine .rate.reveal.is-visible, .js-cine .offer-card.reveal.is-visible,
+.js-cine .why-card.reveal.is-visible, .js-cine .info-card.reveal.is-visible,
+.js-cine .review.reveal.is-visible {
+  transform: perspective(1100px) rotateX(0) translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-cine .rate.reveal, .js-cine .offer-card.reveal, .js-cine .why-card.reveal,
+  .js-cine .info-card.reveal, .js-cine .review.reveal,
+  .js-cine .rate.reveal.is-visible, .js-cine .offer-card.reveal.is-visible,
+  .js-cine .why-card.reveal.is-visible, .js-cine .info-card.reveal.is-visible,
+  .js-cine .review.reveal.is-visible { transform: none !important; }
+}
+
 .hours-box { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem 1.15rem; }
 .hours-box h3 { font-size: 0.72rem; letter-spacing: 0.16em; color: var(--muted); margin-bottom: 0.7rem; }
 .hours-box ul { display: grid; gap: 0.5rem; }
