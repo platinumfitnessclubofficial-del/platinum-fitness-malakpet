@@ -214,7 +214,7 @@
           var a = Math.max(0, d.alpha * (0.6 + 0.4 * Math.sin(d.twinkle)));
           if (d.bokeh) {
             var gr = ctx.createRadialGradient(px, d.y, 0, px, d.y, d.r * 3.2);
-            var col = d.orange ? "59,130,246" : "255,255,255";
+            var col = d.orange ? "212,175,55" : "255,255,255";
             gr.addColorStop(0, "rgba(" + col + "," + a.toFixed(3) + ")");
             gr.addColorStop(1, "rgba(" + col + ",0)");
             ctx.fillStyle = gr;
@@ -223,9 +223,9 @@
             ctx.fill();
           } else {
             ctx.globalAlpha = a;
-            ctx.shadowColor = d.orange ? "rgba(59,130,246,.95)" : "rgba(255,255,255,.85)";
+            ctx.shadowColor = d.orange ? "rgba(212,175,55,.95)" : "rgba(255,255,255,.85)";
             ctx.shadowBlur = d.r * 6;
-            ctx.fillStyle = d.orange ? "#60a5fa" : "#ffffff";
+            ctx.fillStyle = d.orange ? "#e6c75a" : "#ffffff";
             ctx.beginPath();
             ctx.arc(px, d.y, d.r, 0, Math.PI * 2);
             ctx.fill();
