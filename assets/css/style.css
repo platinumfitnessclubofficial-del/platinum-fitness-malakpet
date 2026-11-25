@@ -1016,6 +1016,8 @@ a.info-card:hover { border-color: rgba(212,175,55,0.4); transform: translateY(-2
   .js-cine .review.reveal.is-visible { transform: none !important; }
 }
 
+.terms-alert { color: var(--highlight); font-weight: 800; }
+
 .hours-box { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem 1.15rem; }
 .hours-box h3 { font-size: 0.72rem; letter-spacing: 0.16em; color: var(--muted); margin-bottom: 0.7rem; }
 .hours-box ul { display: grid; gap: 0.5rem; }
