@@ -1015,6 +1015,27 @@ a.info-card:hover { border-color: rgba(212,175,55,0.4); transform: translateY(-2
 
 .terms-alert { color: var(--highlight); font-weight: 800; }
 
+/* Rates rows (TV-style horizontal rows) ------------------------------- */
+.rates-rows { display: grid; gap: 0.6rem; margin-top: 1.6rem; }
+.rates-row {
+  display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 1.2rem;
+  padding: 1rem 1.3rem; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1px solid var(--line);
+}
+.rates-row--hot {
+  background: rgba(212, 175, 55, 0.08); border-color: rgba(212, 175, 55, 0.4);
+}
+.rates-row__name { font-size: 1rem; font-weight: 800; color: var(--ink); }
+.rates-row__per { font-size: 0.78rem; color: var(--muted); font-weight: 700; margin-top: 0.2rem; }
+.rates-row__benefit { font-size: 0.75rem; color: var(--muted); font-weight: 600; margin-top: 0.3rem; line-height: 1.3; }
+.rates-row__price { font-family: var(--font-display); font-size: 1.6rem; color: var(--ink); }
+.rates-row--hot .rates-row__price { color: var(--highlight); }
+.rates-row__save { font-size: 0.72rem; font-weight: 800; color: var(--highlight); text-transform: uppercase; white-space: nowrap; text-align: right; min-width: 7rem; }
+@media (max-width: 640px) {
+  .rates-row { grid-template-columns: 1fr auto; }
+  .rates-row__save { grid-column: 1 / -1; text-align: left; min-width: 0; }
+}
+
 .hours-box { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem 1.15rem; }
 .hours-box h3 { font-size: 0.72rem; letter-spacing: 0.16em; color: var(--muted); margin-bottom: 0.7rem; }
 .hours-box ul { display: grid; gap: 0.5rem; }
