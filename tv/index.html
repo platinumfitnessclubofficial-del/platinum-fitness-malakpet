@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -212,7 +212,7 @@
   .timer-grid{
     width:100%;display:grid;grid-template-columns:.82fr 1.18fr;
     gap:4.5vmin;align-items:center;
-    }     .offer-vertical{       width:100%;display:flex;flex-direction:column;gap:2.2vmin;align-items:stretch;     }     .offer-vertical .bomb{       width:100%;max-width:62vmin;align-self:center;margin-top:1vmin;     }
+    }     .offer-sidebyside{       width:100%;display:flex;flex-direction:column;gap:2.2vmin;align-items:stretch;     }     .offer-sidebyside .bomb{       width:100%;max-width:62vmin;align-self:center;margin-top:1vmin;     }
   .timer-title{font-size:9.5vmin;line-height:.88}
   .price-row{display:flex;align-items:baseline;gap:2.4vmin;margin-top:2.4vmin}
   .price-now{
@@ -524,17 +524,66 @@
   <main class="deck">
 
     <!-- 1 · BIG TIMER + OFFER -->
-    <section class="slide" aria-label="Today's spot offers">
-      <div class="offer-vertical">
+        <section class="slide" aria-label="Today's spot offers">
+      <div class="offer-sidebyside">
         <p class="eyebrow">Today only · spot offers</p>
         <h1 class="timer-title">3 offers<br><span class="accent">today</span></h1>
 
-        <ul class="tv-offer-list">
-          <li><strong>3 + 2 months</strong><span class="tv-offer-list__price">₹10,000</span><em>was 12,000</em><span class="tv-offer-list__benefit">5 months full access · steam bath · trainer</span></li>
-          <li><strong>6 + 2 months</strong><span class="tv-offer-list__price">₹12,000</span><em>was 13,000</em><span class="tv-offer-list__benefit">8 months full access · steam bath · trainer</span></li>
-          <li><strong>12 + 2 months</strong><span class="tv-offer-list__price">₹17,000</span><em>was 18,000</em><span class="tv-offer-list__benefit">14 months full access · steam bath · trainer</span></li>
-        </ul>
-        <p class="offer-line">Extra 1,000 off on 6M & 12M · contact the desk to lock it.</p>
+        <div class="tv-card-grid">
+          <div class="tv-card tv-card--hot">
+            <span class="tv-card__ribbon">3 + 2 months</span>
+            <div class="tv-card__head">
+              <p class="tv-card__kicker">Spot offer · 2 extra months free</p>
+              <p class="tv-card__title">3 + 2 months</p>
+            </div>
+            <div class="tv-card__price">
+              <span class="tv-card__was">₹12,000</span>
+              <span class="tv-card__now">₹10,000</span>
+            </div>
+            <p class="tv-card__per">2,000 / month · 5 months</p>
+            <ul class="tv-card__list">
+              <li>Pay 3 months, get 2 extra months free</li>
+              <li>5 months full access · steam bath · trainer</li>
+            </ul>
+            <p class="tv-card__note">Was ₹12,000. 2 extra months free. Today only.</p>
+          </div>
+
+          <div class="tv-card tv-card--hot">
+            <span class="tv-card__ribbon">6 + 2 months</span>
+            <div class="tv-card__head">
+              <p class="tv-card__kicker">Spot offer · 1,000 already off</p>
+              <p class="tv-card__title">6 + 2 months</p>
+            </div>
+            <div class="tv-card__price">
+              <span class="tv-card__was">₹13,000</span>
+              <span class="tv-card__now">₹12,000</span>
+            </div>
+            <p class="tv-card__per">1,500 / month · 8 months</p>
+            <ul class="tv-card__list">
+              <li>Pay 6 months, get 2 extra months free</li>
+              <li>8 months full access · steam bath · trainer</li>
+            </ul>
+            <p class="tv-card__note">Was ₹13,000. Additional 1,000 off. Today only.</p>
+          </div>
+
+          <div class="tv-card tv-card--hot">
+            <span class="tv-card__ribbon">12 + 2 months</span>
+            <div class="tv-card__head">
+              <p class="tv-card__kicker">Spot offer · 1,000 already off</p>
+              <p class="tv-card__title">12 + 2 months</p>
+            </div>
+            <div class="tv-card__price">
+              <span class="tv-card__was">₹18,000</span>
+              <span class="tv-card__now">₹17,000</span>
+            </div>
+            <p class="tv-card__per">1,214 / month · 14 months</p>
+            <ul class="tv-card__list">
+              <li>Pay 12 months, get 2 extra months free</li>
+              <li>14 months full access · steam bath · trainer</li>
+            </ul>
+            <p class="tv-card__note">Was ₹18,000. Additional 1,000 off. Today only.</p>
+          </div>
+        </div>
 
         <span class="pill">Today only</span>
 
@@ -550,8 +599,7 @@
       </div>
     </section>
 
-        <!-- 2 · PRICES -->
-            <section class="slide" aria-label="Membership prices">
+    <!-- 2 ·
       <div class="prices">
         <div>
           <p class="eyebrow">Membership prices</p>
