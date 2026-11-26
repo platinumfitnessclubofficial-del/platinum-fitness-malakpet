@@ -89,8 +89,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
           ring.position.x = x;
           dumbbell.add(ring);
         });
-        dumbbell.position.set(2.6, -0.6, 0);
-        dumbbell.scale.set(0.7, 0.7, 0.7);
+        dumbbell.position.set(1.8, -0.4, 0);
+        dumbbell.scale.set(0.9, 0.9, 0.9);
         scene.add(dumbbell);
 
         // lighting

@@ -2,3 +2,4 @@
 tools/
 deploy.ps1
 *.zip
+node_modules/
