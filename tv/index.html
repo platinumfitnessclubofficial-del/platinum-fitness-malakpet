@@ -212,7 +212,13 @@
   .timer-grid{
     width:100%;display:grid;grid-template-columns:.82fr 1.18fr;
     gap:4.5vmin;align-items:center;
-    }     .offer-sidebyside{       width:100%;display:flex;flex-direction:column;gap:2.2vmin;align-items:stretch;     }     .offer-sidebyside .bomb{       width:100%;max-width:62vmin;align-self:center;margin-top:1vmin;     }
+  }
+  .offer-vertical{
+    width:100%;display:grid;grid-template-columns:1.35fr .65fr;
+    gap:4.5vmin;align-items:center;
+  }
+  .offer-vertical__offers{min-width:0}
+  .offer-vertical .bomb__digits{font-size:9.2vmin}
   .timer-title{font-size:9.5vmin;line-height:.88}
   .price-row{display:flex;align-items:baseline;gap:2.4vmin;margin-top:2.4vmin}
   .price-now{
@@ -308,10 +314,10 @@
 
   /* ---------- prices ---------- */
   .prices{width:100%;display:grid;grid-template-columns:1.5fr .8fr;gap:5vmin;align-items:center}
-  .rate-list{display:grid;gap:1.5vmin;margin-top:3.2vmin}
+  .rate-list{display:grid;gap:1.1vmin;margin-top:2.6vmin}
   .rate-row{
     display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:3vmin;
-    padding:2vmin 2.8vmin;border-radius:2vmin;
+    padding:1.5vmin 2.8vmin;border-radius:2vmin;
     background:rgba(255,255,255,.035);border:.2vmin solid var(--line);
   }
   .rate-row--hot{
@@ -446,7 +452,7 @@
   .dots button.is-active{width:3.4vmin;background:var(--orange)}
 
   @media (max-aspect-ratio: 4/3){
-    .timer-grid,.prices,.reviews,.choose-grid{grid-template-columns:1fr;gap:3vmin}
+    .timer-grid,.prices,.reviews,.choose-grid,.offer-vertical{grid-template-columns:1fr;gap:3vmin}
     .serv-grid{grid-template-columns:1fr 1fr}
     .bomb__digits{font-size:18vmin}
   }
@@ -526,17 +532,19 @@
     <!-- 1 · BIG TIMER + OFFER -->
         <section class="slide" aria-label="Today's spot offers">
       <div class="offer-vertical">
-        <p class="eyebrow">Today only · spot offers</p>
-        <h1 class="timer-title">3 offers<br><span class="accent">today</span></h1>
+        <div class="offer-vertical__offers">
+          <p class="eyebrow">Today only · spot offers</p>
+          <h1 class="timer-title">3 offers<br><span class="accent">today</span></h1>
 
-        <ul class="tv-offer-list">
-          <li><strong>3 months</strong><span class="tv-offer-list__price">₹10,000</span><em>was 12,000</em><span class="tv-offer-list__benefit">3 months full access · steam bath · trainer</span></li>
-          <li><strong>6 months</strong><span class="tv-offer-list__price">₹12,000</span><em>was 13,000</em><span class="tv-offer-list__benefit">6 months full access · steam bath · trainer</span></li>
-          <li><strong>12 months</strong><span class="tv-offer-list__price">₹17,000</span><em>was 18,000</em><span class="tv-offer-list__benefit">12 months full access · steam bath · trainer</span></li>
-        </ul>
-        <p class="offer-line">Additional discount applied · contact the desk to lock it.</p>
+          <ul class="tv-offer-list">
+            <li><strong>3 months</strong><span class="tv-offer-list__price">₹10,000</span><em>was 12,000</em><span class="tv-offer-list__benefit">3 months full access · steam bath · trainer</span></li>
+            <li><strong>6 months</strong><span class="tv-offer-list__price">₹12,000</span><em>was 13,000</em><span class="tv-offer-list__benefit">6 months full access · steam bath · trainer</span></li>
+            <li><strong>12 months</strong><span class="tv-offer-list__price">₹17,000</span><em>was 18,000</em><span class="tv-offer-list__benefit">12 months full access · steam bath · trainer</span></li>
+          </ul>
+          <p class="offer-line">Additional discount applied · contact the desk to lock it.</p>
 
-        <span class="pill">Today only</span>
+          <span class="pill">Today only</span>
+        </div>
 
         <aside class="bomb">
           <p class="bomb__label"><span class="bomb__dot"></span> Offer ends in</p>
@@ -550,7 +558,8 @@
       </div>
     </section>
 
-    <!-- 2 ·
+    <!-- 2 · MEMBERSHIP PRICES -->
+    <section class="slide" aria-label="Membership prices">
       <div class="prices">
         <div>
           <p class="eyebrow">Membership prices</p>
@@ -558,19 +567,19 @@
 
           <div class="rate-list">
             <div class="rate-row rate-row--hot">
-              <div><div class="rate-row__name">3 + 2 months · today</div><div class="rate-row__per">2,000 / month · 5 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
+              <div><div class="rate-row__name">3 months · today</div><div class="rate-row__per">3,333 / month · 3 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
               <div class="rate-row__price">₹10,000</div>
-              <div class="rate-row__save">2 extra months free</div>
+              <div class="rate-row__save">2,000 off</div>
             </div>
             <div class="rate-row rate-row--hot">
-              <div><div class="rate-row__name">6 + 2 months · today</div><div class="rate-row__per">1,500 / month · 8 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
+              <div><div class="rate-row__name">6 months · today</div><div class="rate-row__per">2,000 / month · 6 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
               <div class="rate-row__price">₹12,000</div>
-              <div class="rate-row__save">1,000 already off</div>
+              <div class="rate-row__save">1,000 off</div>
             </div>
             <div class="rate-row rate-row--hot">
-              <div><div class="rate-row__name">12 + 2 months · today</div><div class="rate-row__per">1,214 / month · 14 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
+              <div><div class="rate-row__name">12 months · today</div><div class="rate-row__per">1,417 / month · 12 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
               <div class="rate-row__price">₹17,000</div>
-              <div class="rate-row__save">1,000 already off</div>
+              <div class="rate-row__save">1,000 off</div>
             </div>
             <div class="rate-row">
               <div><div class="rate-row__name">1 month</div><div class="rate-row__per">5,000 / month</div><div class="rate-row__benefit">Full gym access · trainer on the floor</div></div>
@@ -599,7 +608,8 @@
       </div>
     </section>
 
-    <!-- 3 ' + $dot + ' , doctors and families choose us">
+    <!-- 3 · WHY CHOOSE US -->
+    <section class="slide" aria-label="Why choose us">
       <div class="choose-wrap">
         <p class="eyebrow">Trusted in New Malakpet</p>
         <h2>Why professionals, doctors<br><span class="accent">&amp; families choose us.</span></h2>
@@ -671,7 +681,7 @@
       </div>
     </section>
 
-    <!-- 4 · REVIEWS -->
+    <!-- 5 · REVIEWS -->
     <section class="slide" aria-label="Member reviews">
       <div class="reviews">
         <div class="score">
@@ -732,7 +742,7 @@
       <img src="../assets/img/logo.jpg" alt="" width="40" height="40">
       <span>Platinum Fitness Club · Unisex</span>
     </div>
-    <p class="tv-foot__offer">Today's spot offers · 3+2m ₹10,000 · 6+2m ₹12,000 · 12+2m ₹17,000 · extra ₹1,000 off on 6M & 12M · Ends tonight</p>
+    <p class="tv-foot__offer">Today's spot offers · 3m ₹10,000 · 6m ₹12,000 · 12m ₹17,000 · Ends tonight</p>
     <div class="tv-foot__right">
       <span class="status" id="status"><i></i><b id="status-text">Open</b></span>
       <span class="tv-foot__clock" id="clock">--:--</span>
