@@ -212,7 +212,7 @@
   .timer-grid{
     width:100%;display:grid;grid-template-columns:.82fr 1.18fr;
     gap:4.5vmin;align-items:center;
-  }
+    }     .offer-vertical{       width:100%;display:flex;flex-direction:column;gap:2.2vmin;align-items:stretch;     }     .offer-vertical .bomb{       width:100%;max-width:62vmin;align-self:center;margin-top:1vmin;     }
   .timer-title{font-size:9.5vmin;line-height:.88}
   .price-row{display:flex;align-items:baseline;gap:2.4vmin;margin-top:2.4vmin}
   .price-now{
@@ -500,20 +500,18 @@
 
     <!-- 1 · BIG TIMER + OFFER -->
     <section class="slide" aria-label="Today's spot offers">
-      <div class="timer-grid">
-        <div>
-          <p class="eyebrow">Today only · spot offers · charm prices</p>
-          <h1 class="timer-title">3 offers<br><span class="accent">today</span></h1>
+      <div class="offer-vertical">
+        <p class="eyebrow">Today only · spot offers</p>
+        <h1 class="timer-title">3 offers<br><span class="accent">today</span></h1>
 
-          <ul class="tv-offer-list">
-            <li><strong>3 months</strong><span class="tv-offer-list__price">₹9,999</span><em>was ₹12,000</em></li>
-            <li><strong>6 months</strong><span class="tv-offer-list__price">₹11,999</span><em>was ₹17,000</em></li>
-            <li><strong>12 months</strong><span class="tv-offer-list__price">₹17,999</span><em>was ₹23,000</em></li>
-          </ul>
-          <p class="offer-line">Charm prices · additional discount already applied · contact the desk to lock it.</p>
+        <ul class="tv-offer-list">
+          <li><strong>3 + 2 months</strong><span class="tv-offer-list__price">₹10,000</span><em>was ₹12,000</em></li>
+          <li><strong>6 + 2 months</strong><span class="tv-offer-list__price">₹12,000</span><em>was ₹13,000</em></li>
+          <li><strong>12 + 2 months</strong><span class="tv-offer-list__price">₹17,000</span><em>was ₹18,000</em></li>
+        </ul>
+        <p class="offer-line">Extra ₹1,000 off on 6M & 12M · contact the desk to lock it.</p>
 
-          <span class="pill">Today only</span>
-        </div>
+        <span class="pill">Today only</span>
 
         <aside class="bomb">
           <p class="bomb__label"><span class="bomb__dot"></span> Offer ends in</p>
@@ -536,19 +534,19 @@
 
           <div class="rate-list">
             <div class="rate-row rate-row--hot">
-              <div><div class="rate-row__name">3 months · today</div><div class="rate-row__per">₹3,333 / month</div></div>
-              <div class="rate-row__price">₹9,999</div>
-              <div class="rate-row__save">charm price</div>
+              <div><div class="rate-row__name">3 + 2 months · today</div><div class="rate-row__per">₹2,000 / month · 5 months</div></div>
+              <div class="rate-row__price">₹10,000</div>
+              <div class="rate-row__save">2 extra months free</div>
             </div>
             <div class="rate-row rate-row--hot">
-              <div><div class="rate-row__name">6 months · today</div><div class="rate-row__per">₹2,000 / month</div></div>
-              <div class="rate-row__price">₹11,999</div>
-              <div class="rate-row__save">charm price</div>
+              <div><div class="rate-row__name">6 + 2 months · today</div><div class="rate-row__per">₹1,500 / month · 8 months</div></div>
+              <div class="rate-row__price">₹12,000</div>
+              <div class="rate-row__save">₹1,000 already off</div>
             </div>
             <div class="rate-row rate-row--hot">
-              <div><div class="rate-row__name">12 months · today</div><div class="rate-row__per">₹1,500 / month</div></div>
-              <div class="rate-row__price">₹17,999</div>
-              <div class="rate-row__save">charm price</div>
+              <div><div class="rate-row__name">12 + 2 months · today</div><div class="rate-row__per">₹1,214 / month · 14 months</div></div>
+              <div class="rate-row__price">₹17,000</div>
+              <div class="rate-row__save">₹1,000 already off</div>
             </div>
             <div class="rate-row">
               <div><div class="rate-row__name">1 month</div><div class="rate-row__per">₹5,000 / month</div></div>
@@ -711,7 +709,7 @@
       <img src="../assets/img/logo.jpg" alt="" width="40" height="40">
       <span>Platinum Fitness Club · Unisex</span>
     </div>
-    <p class="tv-foot__offer">Today's spot offers · 3M ₹9,999 · 6M ₹11,999 · 12M ₹17,999 · charm prices · Ends tonight</p>
+    <p class="tv-foot__offer">Today's spot offers · 3+2m ₹10,000 · 6+2m ₹12,000 · 12+2m ₹17,000 · extra ₹1,000 off on 6M & 12M · Ends tonight</p>
     <div class="tv-foot__right">
       <span class="status" id="status"><i></i><b id="status-text">Open</b></span>
       <span class="tv-foot__clock" id="clock">--:--</span>
