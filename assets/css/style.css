@@ -1647,7 +1647,7 @@ body.nav-open { overflow: hidden; }
 }
 
 .offer-grid--offers {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   align-items: stretch;
 }
 .offer-grid--offers .offer-card { height: 100%; }
