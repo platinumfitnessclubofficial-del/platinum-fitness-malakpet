@@ -24,6 +24,15 @@
     --font-body:"Manrope",system-ui,"Segoe UI",sans-serif;
     --dur:13000ms;
     --safe:3.4vmin;
+    --line-2:rgba(255,255,255,.18);
+    --shadow:0 44px 90px -48px rgba(0,0,0,.95);
+    --radius-sm:12px;
+    --radius-lg:30px;
+    --radius-pill:999px;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+    --glow:0 20px 50px -24px rgba(212,175,55,.6);
+    --orange-2:#e6c75a;
+    --ink-2:#b9bbc6;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;overflow:hidden}
@@ -506,8 +515,51 @@
   .slide.is-active .brand-slide__kicker{animation:creditIn .8s ease .8s both}
   .slide.is-active .brand-slide__tag{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) .95s both}
   .slide.is-active .brand-slide__contact{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) 1.1s both}
+  /* ---------- website offer cards (exact) on TV ------------------------- */
+  .offer-exact { width: 100%; display: grid; grid-template-columns: 1fr 36vmin; grid-template-rows: auto auto 1fr; grid-template-areas: "head head" "title title" "cards timer"; gap: 1.6vmin 2.4vmin; align-items: center; }
+  .offer-exact > .eyebrow { grid-area: head; }
+  .offer-exact > .timer-title { grid-area: title; }
+  .offer-exact > .offer-grid { grid-area: cards; min-width: 0; }
+  .offer-exact > .bomb { grid-area: timer; width: 100%; }
+  .offer-exact .bomb__digits { font-size: 9vmin; }
+  .offer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; position: relative; z-index: 1; }
+  .offer-grid--offers { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+  .offer-grid--offers .offer-card { height: 100%; }
+  .offer-card { position: relative; overflow: hidden; background: linear-gradient(170deg, #17171e, #101015); border: 1px solid var(--line-2); border-radius: var(--radius-lg); padding: clamp(1.6rem, 3vw, 2.4rem); display: flex; flex-direction: column; transition: transform 0.4s var(--ease), border-color 0.3s ease, box-shadow 0.4s var(--ease); }
+  .offer-card:hover { transform: translateY(-5px); border-color: rgba(212,175,55,0.45); box-shadow: var(--shadow); }
+  .offer-card--hero { border-color: rgba(212,175,55,0.55); box-shadow: 0 0 0 1px rgba(212,175,55,0.15), 0 30px 80px -30px rgba(212,175,55,0.45); animation: offerGlow 3.2s ease-in-out infinite; }
+  .offer-card--hero::after { content: ""; position: absolute; top: 0; bottom: 0; left: -70%; width: 45%; transform: skewX(-18deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); animation: cardShine 6.5s ease-in-out infinite; pointer-events: none; }
+  @keyframes cardShine { 0%, 52% { left: -70%; } 100% { left: 135%; } }
+  @keyframes offerGlow { 0%, 100% { box-shadow: 0 0 0 1px rgba(212,175,55,0.15), 0 30px 80px -30px rgba(212,175,55,0.35); } 50% { box-shadow: 0 0 0 1px rgba(212,175,55,0.35), 0 30px 90px -20px rgba(212,175,55,0.55); } }
+  @keyframes ribbonPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+  .offer-card--hero .offer-card__ribbon { animation: ribbonPulse 2s ease-in-out infinite; }
+  .offer-card__ribbon { position: absolute; top: 0; right: 0; background: var(--highlight); color: #fff; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.45rem 1rem 0.45rem 1.2rem; border-bottom-left-radius: 12px; }
+  .offer-card__head { margin-bottom: 1.4rem; }
+  .offer-card__kicker { display: block; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 800; color: var(--orange); margin-bottom: 0.6rem; }
+  .offer-card__title { font-size: clamp(1.9rem, 3.2vw, 2.7rem); color: #fff; }
+  .offer-card__title span { color: var(--orange); }
+  .offer-card__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.3rem 0.75rem; padding-bottom: 1.3rem; border-bottom: 1px dashed rgba(255,255,255,0.16); }
+  .offer-card__was { color: var(--muted); text-decoration: line-through; font-size: 0.95rem; font-weight: 700; }
+  .offer-card__price strong { font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 3.9rem); line-height: 1; color: #fff; }
+  .offer-card__per { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); }
+  .offer-card__list { display: grid; gap: 0.55rem; margin: 1.3rem 0 1.7rem; }
+  .offer-card__list li { position: relative; padding-left: 1.5rem; font-size: 0.86rem; color: #b9bbc6; }
+  .offer-card__list li::before { content: ""; position: absolute; left: 0; top: 0.42em; width: 11px; height: 6px; border-left: 1.8px solid var(--orange); border-bottom: 1.8px solid var(--orange); transform: rotate(-45deg); }
+  .offer-card .btn { margin-top: auto; }
+  .offer-card__note { margin-top: 0.8rem; font-size: 0.7rem; color: var(--muted); text-align: center; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 54px; padding: 0.9rem 1.6rem; border-radius: var(--radius-pill); background: var(--orange); color: #140700; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.01em; border: 1px solid transparent; position: relative; overflow: hidden; transition: transform 0.25s var(--ease), box-shadow 0.3s var(--ease), background-color 0.25s ease, color 0.25s ease; }
+  .btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.45) 50%, transparent 75%); transform: translateX(-120%); transition: transform 0.7s var(--ease); }
+  .btn:hover { transform: translateY(-2px); box-shadow: var(--glow); background: var(--orange-2); }
+  .btn:hover::after { transform: translateX(120%); }
+  .btn:active { transform: translateY(0); }
+  .btn svg { width: 17px; height: 17px; flex: none; }
+  .btn--block { width: 100%; }
+  .slide.is-active .offer-card { animation: riseIn .9s cubic-bezier(.2,.7,.2,1) both, offerGlow 3.2s ease-in-out 1s infinite; }
+  .slide.is-active .offer-card:nth-child(1) { animation-delay: .5s, 1s; }
+  .slide.is-active .offer-card:nth-child(2) { animation-delay: .62s, 1s; }
+  .slide.is-active .offer-card:nth-child(3) { animation-delay: .74s, 1s; }
+
 </style>
-</head>
 <body>
 <div class="stage">
   <div class="progress" id="progress"></div>
@@ -531,19 +583,73 @@
 
     <!-- 1 · BIG TIMER + OFFER -->
         <section class="slide" aria-label="Today's spot offers">
-      <div class="offer-vertical">
-        <div class="offer-vertical__offers">
-          <p class="eyebrow">Today only · spot offers</p>
-          <h1 class="timer-title">3 offers<br><span class="accent">today</span></h1>
+      <div class="offer-exact">
+        <p class="eyebrow">Today only · spot offers</p>
+        <h1 class="timer-title">3 offers<br><span class="accent">today</span></h1>
 
-          <ul class="tv-offer-list">
-            <li><strong>3 months</strong><span class="tv-offer-list__price">₹10,000</span><em>was 12,000</em><span class="tv-offer-list__benefit">3 months full access · steam bath · trainer</span></li>
-            <li><strong>6 months</strong><span class="tv-offer-list__price">₹12,000</span><em>was 13,000</em><span class="tv-offer-list__benefit">6 months full access · steam bath · trainer</span></li>
-            <li><strong>12 months</strong><span class="tv-offer-list__price">₹17,000</span><em>was 18,000</em><span class="tv-offer-list__benefit">12 months full access · steam bath · trainer</span></li>
-          </ul>
-          <p class="offer-line">Additional discount applied · contact the desk to lock it.</p>
+        <div class="offer-grid offer-grid--offers">
+          <article class="offer-card offer-card--hero">
+            <span class="offer-card__ribbon">3 months · today only</span>
+            <header class="offer-card__head">
+              <span class="offer-card__kicker">Spot offer · 2,000 off</span>
+              <p class="offer-card__title"><span>3</span> months</p>
+            </header>
+            <div class="offer-card__price">
+              <span class="offer-card__was">₹12,000</span>
+              <strong>₹10,000</strong>
+              <span class="offer-card__per">3,333 / month · 3 months</span>
+            </div>
+            <ul class="offer-card__list">
+              <li>3 months of full gym access, one entry per day</li>
+              <li>Exercise card + 7-day trainer guidance</li>
+              <li>Weekly steam bath, lockers &amp; showers</li>
+              <li>Confirmed on payment — first come, first served</li>
+            </ul>
+            <a class="btn btn--block" href="tel:+917416769922">Claim 3 months · 10,000</a>
+            <p class="offer-card__note">Was 12,000. 2,000 off. Today only.</p>
+          </article>
 
-          <span class="pill">Today only</span>
+          <article class="offer-card offer-card--hero">
+            <span class="offer-card__ribbon">6 months · today only</span>
+            <header class="offer-card__head">
+              <span class="offer-card__kicker">Spot offer · 1,000 already off</span>
+              <p class="offer-card__title"><span>6</span> months</p>
+            </header>
+            <div class="offer-card__price">
+              <span class="offer-card__was">₹13,000</span>
+              <strong>₹12,000</strong>
+              <span class="offer-card__per">2,000 / month · 6 months</span>
+            </div>
+            <ul class="offer-card__list">
+              <li>6 months of full gym access, one entry per day</li>
+              <li>Exercise card + 7-day trainer guidance</li>
+              <li>Weekly steam bath, lockers &amp; showers</li>
+              <li>Confirmed on payment — first come, first served</li>
+            </ul>
+            <a class="btn btn--block" href="tel:+917416769922">Contact the desk · 12,000</a>
+            <p class="offer-card__note">Was 13,000. Additional 1,000 off applied.</p>
+          </article>
+
+          <article class="offer-card offer-card--hero">
+            <span class="offer-card__ribbon">12 months · today only</span>
+            <header class="offer-card__head">
+              <span class="offer-card__kicker">Spot offer · 1,000 already off</span>
+              <p class="offer-card__title"><span>12</span> months</p>
+            </header>
+            <div class="offer-card__price">
+              <span class="offer-card__was">₹18,000</span>
+              <strong>₹17,000</strong>
+              <span class="offer-card__per">1,417 / month · 12 months</span>
+            </div>
+            <ul class="offer-card__list">
+              <li>12 months of full gym access, one entry per day</li>
+              <li>Exercise card + 7-day trainer guidance</li>
+              <li>Weekly steam bath, lockers &amp; showers</li>
+              <li>Confirmed on payment — first come, first served</li>
+            </ul>
+            <a class="btn btn--block" href="tel:+917416769922">Contact the desk · 17,000</a>
+            <p class="offer-card__note">Was 18,000. Additional 1,000 off applied.</p>
+          </article>
         </div>
 
         <aside class="bomb">
