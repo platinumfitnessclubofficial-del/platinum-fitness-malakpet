@@ -527,12 +527,13 @@
   .slide.is-active .brand-slide__tag{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) .95s both}
   .slide.is-active .brand-slide__contact{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) 1.1s both}
   /* ---------- website offer cards (exact) on TV ------------------------- */
-  .offer-exact { width: 100%; display: flex; flex-direction: column; gap: 1.2vmin; align-items: stretch; }
+  .offer-exact { width: 100%; display: flex; flex-direction: column; gap: 2vmin; align-items: stretch; justify-content: center; }
+  .offer-exact > .offer-grid { min-width: 0; }
+  .offer-grid.offer-grid--offers { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+  .offer-grid--offers .offer-card { height: auto; }
   .offer-exact > .bomb { width: 100%; max-width: none; }
   .offer-exact .bomb__digits { font-size: 10.5vmin; }
   .offer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; position: relative; z-index: 1; }
-  .offer-grid--offers { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
-  .offer-grid--offers .offer-card { height: 100%; }
   .offer-card { position: relative; overflow: hidden; background: linear-gradient(170deg, #17171e, #101015); border: 1px solid var(--line-2); border-radius: var(--radius-lg); padding: clamp(1rem, 2vw, 1.6rem); display: flex; flex-direction: column; transition: transform 0.4s var(--ease), border-color 0.3s ease, box-shadow 0.4s var(--ease); }
   .offer-card:hover { transform: translateY(-5px); border-color: rgba(212,175,55,0.45); box-shadow: var(--shadow); }
   .offer-card--hero { border-color: rgba(212,175,55,0.55); box-shadow: 0 0 0 1px rgba(212,175,55,0.15), 0 30px 80px -30px rgba(212,175,55,0.45); animation: offerGlow 3.2s ease-in-out infinite; }
