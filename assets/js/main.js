@@ -335,6 +335,38 @@
     });
   }
 
+  /* 3D tilt + glare on offer cards ------------------------------------------ */
+  if (finePointer && !reduceMotion) {
+    document.querySelectorAll(".offer-card").forEach(function (card) {
+      var frame = null;
+      card.addEventListener("pointerenter", function () {
+        card.classList.add("is-tilting");
+      });
+      card.addEventListener("pointermove", function (e) {
+        if (frame) return;
+        frame = requestAnimationFrame(function () {
+          var rect = card.getBoundingClientRect();
+          var px = (e.clientX - rect.left) / rect.width;
+          var py = (e.clientY - rect.top) / rect.height;
+          var ry = (px - 0.5) * 14;
+          var rx = (0.5 - py) * 12;
+          card.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+          card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+          card.style.transform =
+            "perspective(1100px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) +
+            "deg) translateZ(18px) scale(1.012)";
+          frame = null;
+        });
+      });
+      card.addEventListener("pointerleave", function () {
+        card.classList.remove("is-tilting");
+        card.style.transform = "";
+        card.style.removeProperty("--mx");
+        card.style.removeProperty("--my");
+      });
+    });
+  }
+
   /* Lightbox -------------------------------------------------------------- */
   var dialog = document.querySelector("[data-lightbox-dialog]");
   var galleryItems = Array.prototype.slice.call(document.querySelectorAll("[data-lightbox]"));
