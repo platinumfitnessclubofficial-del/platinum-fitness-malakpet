@@ -382,6 +382,13 @@
     color:var(--orange);margin:1.4vmin 0 1.8vmin;
   }
   .trial-card p{font-size:1.6vmin;line-height:1.5;color:var(--muted);font-weight:600}
+  .trial-card--bottom{
+    width:100%;max-width:74vmin;margin:0 auto;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:1vmin;
+  }
+  .trial-card--bottom h3{font-size:3vmin}
+  .trial-card--bottom p.trial-card__price{font-size:7vmin;margin:.6vmin 0}
+  .trial-card--bottom p{font-size:1.5vmin}
 
   /* ---------- services ---------- */
   .services{width:100%}
@@ -712,14 +719,14 @@
                 <div class="rate-row__save"></div>
               </div>
             </div>
-            <aside class="trial-card">
-              <p class="eyebrow">Try before you join</p>
-              <h3>One-day<br>trial pass</h3>
-              <p class="trial-card__price">₹500</p>
-              <p>Full floor access for a day. Adjusted against membership within 7 days.</p>
-            </aside>
           </div>
         </div>
+        <aside class="trial-card trial-card--bottom">
+          <p class="eyebrow">Try before you join</p>
+          <h3>One-day<br>trial pass</h3>
+          <p class="trial-card__price">₹500</p>
+          <p>Full floor access for a day. Adjusted against membership within 7 days.</p>
+        </aside>
       </div>
     </section>
 
