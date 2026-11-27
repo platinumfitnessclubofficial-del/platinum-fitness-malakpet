@@ -151,7 +151,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
           }
         );
       });
-      gsap.utils.toArray(".rate, .offer-card, .why-card, .info-card").forEach(function (el, i) {
+      gsap.utils.toArray(".rate, .why-card, .info-card").forEach(function (el, i) {
         gsap.fromTo(el,
           { opacity: 0, rotationX: 8, y: 30, transformPerspective: 900 },
           {

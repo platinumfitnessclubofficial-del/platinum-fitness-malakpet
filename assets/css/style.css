@@ -10,7 +10,7 @@
   --surface-2: #1b1b23;
   --ink: #f4f4f7;
   --ink-2: #cfd0d8;
-  --muted: #8e909d;
+  --muted: #6a6d78;
   --orange: #d4af37;
   --orange-2: #e6c75a;
   --orange-deep: #b8941f;
@@ -1654,6 +1654,32 @@ body.nav-open { overflow: hidden; }
 .offer-grid--offers .offer-card { height: 100%; }
 @media (max-width: 900px) {
   .offer-grid--offers { grid-template-columns: 1fr; }
+}
+
+/* 3D reveal: each offer card flips in from the left, staggered -------- */
+.offer-card.reveal.is-visible {
+  animation:
+    offerCard3DIn 1s cubic-bezier(0.2, 0.7, 0.2, 1) backwards,
+    offerGlow 3.2s ease-in-out infinite;
+  transform-origin: left center;
+}
+.offer-grid--offers .offer-card.reveal.is-visible:nth-child(2) { animation-delay: 0.14s; }
+.offer-grid--offers .offer-card.reveal.is-visible:nth-child(3) { animation-delay: 0.28s; }
+@keyframes offerCard3DIn {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    transform: perspective(1200px) rotateY(-26deg) translateZ(-90px) translateX(-22px) scale(0.94);
+  }
+  60% { opacity: 1; }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: perspective(1200px) rotateY(0deg) translateZ(0) translateX(0) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .offer-card.reveal.is-visible { animation: none; }
 }
 
 /* 3D offer cards: pointer tilt + glare + lift ------------------------- */
