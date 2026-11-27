@@ -548,16 +548,6 @@
   .offer-card__list li::before { content: ""; position: absolute; left: 0; top: 0.42em; width: 11px; height: 6px; border-left: 1.8px solid var(--orange); border-bottom: 1.8px solid var(--orange); transform: rotate(-45deg); }
   .offer-card .btn { margin-top: auto; }
   .offer-card__note { margin-top: 0.8rem; font-size: 0.7rem; color: var(--muted); text-align: center; }
-
-  /* Uiverse flip cards (adapted) ------------------------------------------- */
-  /* From Uiverse.io by IWhat1 - https://uiverse.io/IWhat1/loud-frog-61
-     MIT License, Copyright (c) IWhat1, IWhat1 (CHINTA JAYA KRISHNA), IWhat1 (CHINTA JAYA KRISHNA) */
-  .offer-flip-card { perspective: 900px; }
-  .offer-flip { height: 100%; width: 100%; position: relative; transition: transform 1500ms var(--ease, cubic-bezier(0.22,1,0.36,1)); transform-style: preserve-3d; border-radius: var(--radius-lg, 30px); }
-  .offer-flip-card:hover > .offer-flip { cursor: pointer; transform: rotateY(180deg) rotateZ(180deg); }
-  .offer-flip__face { height: 100%; width: 100%; border-radius: var(--radius-lg, 30px); position: absolute; top: 0; left: 0; backface-visibility: hidden; overflow: hidden; display: flex; flex-direction: column; padding: clamp(1.6rem, 3vw, 2.4rem); background: transparent; }
-  .offer-flip__face--back { transform: rotateY(180deg) rotateZ(180deg); }
-  @keyframes flipIn { from { transform: rotateY(180deg) rotateZ(180deg); } to { transform: rotateY(0) rotateZ(0); } }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 54px; padding: 0.9rem 1.6rem; border-radius: var(--radius-pill); background: var(--orange); color: #140700; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.01em; border: 1px solid transparent; position: relative; overflow: hidden; transition: transform 0.25s var(--ease), box-shadow 0.3s var(--ease), background-color 0.25s ease, color 0.25s ease; }
   .btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.45) 50%, transparent 75%); transform: translateX(-120%); transition: transform 0.7s var(--ease); }
   .btn:hover { transform: translateY(-2px); box-shadow: var(--glow); background: var(--orange-2); }
@@ -565,7 +555,7 @@
   .btn:active { transform: translateY(0); }
   .btn svg { width: 17px; height: 17px; flex: none; }
   .btn--block { width: 100%; }
-  .slide.is-active .offer-card { animation: flipIn 1s cubic-bezier(.2,.7,.2,1) both, offerGlow 3.2s ease-in-out 1s infinite; }
+  .slide.is-active .offer-card { animation: riseIn .9s cubic-bezier(.2,.7,.2,1) both, offerGlow 3.2s ease-in-out 1s infinite; }
   .slide.is-active .offer-card:nth-child(1) { animation-delay: .5s, 1s; }
   .slide.is-active .offer-card:nth-child(2) { animation-delay: .62s, 1s; }
   .slide.is-active .offer-card:nth-child(3) { animation-delay: .74s, 1s; }
@@ -1137,25 +1127,6 @@
     renderPair(0);
     setInterval(rotateReviews, 3250); // 4 pairs x 3.25s = 13s slide duration
   }
-
-  // ---------- offer cards -> Uiverse flip cards ----------------------------
-  (function () {
-    var cards = document.querySelectorAll(".offer-card");
-    cards.forEach(function (card) {
-      if (card.querySelector(".offer-flip")) return;
-      var front = document.createElement("div");
-      front.className = "offer-flip__face offer-flip__face--front";
-      while (card.firstChild) front.appendChild(card.firstChild);
-      var back = front.cloneNode(true);
-      back.className = "offer-flip__face offer-flip__face--back";
-      var flip = document.createElement("div");
-      flip.className = "offer-flip";
-      flip.appendChild(front);
-      flip.appendChild(back);
-      card.appendChild(flip);
-      card.classList.add("offer-flip-card");
-    });
-  })();
 
   // ---------- countdown to midnight ----------
   var cdEls = Array.prototype.slice.call(document.querySelectorAll("[data-countdown]"));

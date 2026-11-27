@@ -622,7 +622,7 @@ h4 { font-size: 0.95rem; }
   background: linear-gradient(170deg, #17171e, #101015);
   border: 1px solid var(--line-2);
   border-radius: var(--radius-lg);
-  padding: 0;
+  padding: clamp(1.6rem, 3vw, 2.4rem);
   display: flex; flex-direction: column;
   transition: transform 0.4s var(--ease), border-color 0.3s ease, box-shadow 0.4s var(--ease);
 }
@@ -680,41 +680,6 @@ h4 { font-size: 0.95rem; }
 }
 .offer-card .btn { margin-top: auto; }
 .offer-card__note { margin-top: 0.8rem; font-size: 0.7rem; color: var(--muted); text-align: center; }
-
-/* Uiverse flip cards (adapted) ------------------------------------------- */
-/* From Uiverse.io by IWhat1 - https://uiverse.io/IWhat1/loud-frog-61
-   MIT License, Copyright (c) IWhat1, IWhat1 (CHINTA JAYA KRISHNA), IWhat1 (CHINTA JAYA KRISHNA) */
-.offer-flip-card {
-  perspective: 900px;
-}
-.offer-flip {
-  height: 100%;
-  width: 100%;
-  position: relative;
-  transition: transform 1500ms var(--ease);
-  transform-style: preserve-3d;
-  border-radius: var(--radius-lg);
-}
-.offer-flip-card:hover > .offer-flip {
-  cursor: pointer;
-  transform: rotateY(180deg) rotateZ(180deg);
-}
-.offer-flip__face {
-  height: 100%;
-  width: 100%;
-  border-radius: var(--radius-lg);
-  position: absolute;
-  top: 0; left: 0;
-  backface-visibility: hidden;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: clamp(1.6rem, 3vw, 2.4rem);
-  background: transparent;
-}
-.offer-flip__face--back {
-  transform: rotateY(180deg) rotateZ(180deg);
-}
 
 .offer-clock {
   grid-column: 1 / -1;

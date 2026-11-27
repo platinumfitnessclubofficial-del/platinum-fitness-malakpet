@@ -335,26 +335,37 @@
     });
   }
 
-  /* Offer cards -> Uiverse flip cards -------------------------------------- */
-  /* From Uiverse.io by IWhat1 - https://uiverse.io/IWhat1/loud-frog-61
-     MIT License, Copyright (c) IWhat1, IWhat1 (CHINTA JAYA KRISHNA), IWhat1 (CHINTA JAYA KRISHNA) */
-  (function () {
-    var cards = document.querySelectorAll(".offer-card");
-    cards.forEach(function (card) {
-      if (card.querySelector(".offer-flip")) return;
-      var front = document.createElement("div");
-      front.className = "offer-flip__face offer-flip__face--front";
-      while (card.firstChild) front.appendChild(card.firstChild);
-      var back = front.cloneNode(true);
-      back.className = "offer-flip__face offer-flip__face--back";
-      var flip = document.createElement("div");
-      flip.className = "offer-flip";
-      flip.appendChild(front);
-      flip.appendChild(back);
-      card.appendChild(flip);
-      card.classList.add("offer-flip-card");
+  /* 3D tilt + glare on offer cards ------------------------------------------ */
+  if (finePointer && !reduceMotion) {
+    document.querySelectorAll(".offer-card").forEach(function (card) {
+      var frame = null;
+      card.addEventListener("pointerenter", function () {
+        card.classList.add("is-tilting");
+      });
+      card.addEventListener("pointermove", function (e) {
+        if (frame) return;
+        frame = requestAnimationFrame(function () {
+          var rect = card.getBoundingClientRect();
+          var px = (e.clientX - rect.left) / rect.width;
+          var py = (e.clientY - rect.top) / rect.height;
+          var ry = (px - 0.5) * 14;
+          var rx = (0.5 - py) * 12;
+          card.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+          card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+          card.style.transform =
+            "perspective(1100px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) +
+            "deg) translateZ(18px) scale(1.012)";
+          frame = null;
+        });
+      });
+      card.addEventListener("pointerleave", function () {
+        card.classList.remove("is-tilting");
+        card.style.transform = "";
+        card.style.removeProperty("--mx");
+        card.style.removeProperty("--my");
+      });
     });
-  })();
+  }
 
   /* Lightbox -------------------------------------------------------------- */
   var dialog = document.querySelector("[data-lightbox-dialog]");
