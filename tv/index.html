@@ -218,6 +218,9 @@
   .trial-card--bottom{width:100%;max-width:60vmin;margin:1vmin auto 0;text-align:center;border-radius:2vmin;padding:2vmin;background:linear-gradient(165deg,rgba(212,175,55,.12),rgba(255,255,255,.02));border:.2vmin solid rgba(212,175,55,.4);display:flex;flex-direction:column;align-items:center;gap:.6vmin;animation:float 4s ease-in-out infinite}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.2vmin)}}
 
+  .countdown-bar{display:flex;align-items:center;justify-content:center;gap:1.6vmin;padding:1.2vmin 2vmin;border-radius:1.6vmin;background:linear-gradient(90deg,rgba(255,92,26,.12),rgba(212,175,55,.12));border:.2vmin solid rgba(255,92,26,.4)}
+  .countdown-bar__label{font-size:1.6vmin;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+  .countdown-bar__digits{font-family:var(--font-display);font-size:3.6vmin;line-height:1;color:var(--highlight);font-variant-numeric:tabular-nums;letter-spacing:.04em}
   .tv-terms-alert{color:var(--highlight);font-weight:800}
 </style>
 </head>
@@ -299,6 +302,10 @@
             <p class="plan-card__countdown">Sale ending in <span data-countdown>00:00:00</span></p>
             <a class="btn btn--block" href="tel:+917416769922">Buy Now</a>
           </article>
+        </div>
+        <div class="countdown-bar">
+          <span class="countdown-bar__label">Offer ends in</span>
+          <span class="countdown-bar__digits" data-countdown>00:00:00</span>
         </div>
         <aside class="trial-card trial-card--bottom">
           <p class="eyebrow">Try before you join</p>
