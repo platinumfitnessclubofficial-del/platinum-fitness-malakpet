@@ -12,590 +12,204 @@
 <style>
   :root{
     --bg:#0a0a0c;
-    --surface:#111116;
+    --surface:#14141a;
+    --surface-2:#1c1c24;
     --ink:#f4f4f7;
-    --muted:#9598a5;
+    --muted:#9a9da8;
     --orange:#d4af37;
     --orange-deep:#b8941f;
     --highlight:#ff5c1a;
-    --highlight-2:#ff7f45;
     --line:rgba(255,255,255,.10);
+    --line-2:rgba(255,255,255,.18);
+    --shadow:0 40px 80px -40px rgba(0,0,0,.9);
+    --radius:14px;
+    --radius-lg:24px;
+    --radius-pill:999px;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+    --glow:0 20px 50px -24px rgba(212,175,55,.5);
     --font-display:"Anton","Arial Narrow",Impact,sans-serif;
     --font-body:"Manrope",system-ui,"Segoe UI",sans-serif;
     --dur:13000ms;
     --safe:3.4vmin;
-    --line-2:rgba(255,255,255,.18);
-    --shadow:0 44px 90px -48px rgba(0,0,0,.95);
-    --radius-sm:12px;
-    --radius-lg:30px;
-    --radius-pill:999px;
-    --ease:cubic-bezier(0.22,1,0.36,1);
-    --glow:0 20px 50px -24px rgba(212,175,55,.6);
-    --orange-2:#e6c75a;
-    --ink-2:#b9bbc6;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;overflow:hidden}
   body{
     background:var(--bg);color:var(--ink);font-family:var(--font-body);
     -webkit-font-smoothing:antialiased;cursor:none;
+    background:radial-gradient(120% 80% at 50% 0%, rgba(212,175,55,.08), transparent 60%), var(--bg);
   }
   body.show-cursor{cursor:default}
   img{display:block;max-width:100%}
-
-  /* ---------- stage ---------- */
-  .stage{
-    position:relative;height:100vh;height:100dvh;
-    display:grid;grid-template-rows:1fr auto;overflow:hidden;perspective:1800px;perspective-origin:50% 45%;
-    background:
-      radial-gradient(120% 90% at 82% 8%, rgba(212,175,55,.16), transparent 55%),
-      radial-gradient(90% 80% at 8% 100%, rgba(212,175,55,.10), transparent 60%),
-      var(--bg);
-  }
-  .stage::before{
-    content:"";position:absolute;inset:0;
-    background-image:
-      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-    background-size:6vmin 6vmin;
-    mask-image:radial-gradient(80% 70% at 50% 45%, #000 20%, transparent 100%);
-    -webkit-mask-image:radial-gradient(80% 70% at 50% 45%, #000 20%, transparent 100%);
-    pointer-events:none;
-  }
-  .stage::after{
-    content:"";position:absolute;inset:0;
-    background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
-    opacity:.35;pointer-events:none;
-  }
-  .fx{
-    position:absolute;inset:0;width:100%;height:100%;
-    z-index:1;pointer-events:none;
-  }
-   .fx3d{
-     position:absolute;inset:0;width:100%;height:100%;
-     z-index:0;pointer-events:none;opacity:.4;
-   }
-
-  .progress{
-    position:absolute;top:0;left:0;height:.45vmin;width:0;
-    background:linear-gradient(90deg,var(--orange),#e6c75a);
-    box-shadow:0 0 2.4vmin rgba(212,175,55,.85);z-index:40;
-  }
-  .progress.run{animation:fill var(--dur) linear forwards}
-  @keyframes fill{from{width:0}to{width:100%}}
+  a{color:inherit;text-decoration:none}
+  strong{font-weight:800}
+  .accent{color:var(--orange)}
 
   /* ---------- deck ---------- */
-  .deck{position:relative;overflow:hidden}
+  .stage{position:relative;width:100%;height:100%;overflow:hidden}
+  .deck{position:relative;width:100%;height:100%;overflow:hidden}
   .slide{
     position:absolute;inset:0;
-    padding:calc(var(--safe) + 1.4vmin) calc(var(--safe) + 3vmin) var(--safe);
-    opacity:0;visibility:hidden;transform:translateY(2.4vmin) scale(.985);
-    transition:opacity .75s ease, transform .9s cubic-bezier(.22,1,.36,1), visibility .75s;
-    display:flex;align-items:center;
+    padding:calc(var(--safe) + 1vmin) calc(var(--safe) + 3vmin) var(--safe);
+    opacity:0;visibility:hidden;transform:translateY(1.6vmin);
+    transition:opacity .6s ease, transform .7s var(--ease), visibility .6s;
+    display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:2vmin;
   }
   .slide.is-active{opacity:1;visibility:visible;transform:none;z-index:2}
-  /* cinematic tracking-in on slide titles */
-  .slide.is-active h1, .slide.is-active h2{
-    animation:trackIn 1.15s cubic-bezier(.2,.7,.2,1) .18s both;
-  }
-  @keyframes trackIn{
-    from{opacity:0;filter:blur(14px);letter-spacing:.16em;transform:perspective(900px) rotateX(12deg) translateY(2vmin)}
-    to{opacity:1;filter:blur(0);letter-spacing:.005em;transform:perspective(900px) rotateX(0) translateY(0)}
-  }
-  /* staggered film-credit reveals on slide content */
-  .slide.is-active .eyebrow{animation:creditIn .8s ease .3s both}
-  .slide.is-active .price-row,.slide.is-active .price-sub,.slide.is-active .offer-line,
-  .slide.is-active .tv-offer-list,.slide.is-active .tv-offer-list li,
-  .slide.is-active .pill,.slide.is-active .bomb,.slide.is-active .rate-list,
-  .slide.is-active .trial-card,.slide.is-active .score,.slide.is-active .review-col,
-  .slide.is-active .review-chips,.slide.is-active .choose-grid{
-    animation:riseIn .95s cubic-bezier(.2,.7,.2,1) .55s both;
-  }
-  .slide.is-active .rate-row{animation:riseIn .8s cubic-bezier(.2,.7,.2,1) both}
-  .slide.is-active .rate-row:nth-child(1){animation-delay:.65s}
-  .slide.is-active .rate-row:nth-child(2){animation-delay:.73s}
-  .slide.is-active .rate-row:nth-child(3){animation-delay:.81s}
-  .slide.is-active .rate-row:nth-child(4){animation-delay:.89s}
-  .slide.is-active .rate-row:nth-child(5){animation-delay:.97s}
-  .slide.is-active .rate-row:nth-child(6){animation-delay:1.05s}
-  .slide.is-active .serv{animation:riseIn .8s cubic-bezier(.2,.7,.2,1) both}
-  .slide.is-active .serv:nth-child(1){animation-delay:.6s}
-  .slide.is-active .serv:nth-child(2){animation-delay:.68s}
-  .slide.is-active .serv:nth-child(3){animation-delay:.76s}
-  .slide.is-active .serv:nth-child(4){animation-delay:.84s}
-  .slide.is-active .serv:nth-child(5){animation-delay:.92s}
-  .slide.is-active .serv:nth-child(6){animation-delay:1s}
-  .slide.is-active .choose{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) both}
-  .slide.is-active .choose:nth-child(1){animation-delay:.65s}
-  .slide.is-active .choose:nth-child(2){animation-delay:.77s}
-  .slide.is-active .choose:nth-child(3){animation-delay:.89s}
-  .slide.is-active .choose:nth-child(4){animation-delay:1.01s}
-  @keyframes creditIn{
-    from{opacity:0;letter-spacing:.3em}
-    to{opacity:1;letter-spacing:.28em}
-  }
-  @keyframes riseIn{
-    from{opacity:0;transform:translateY(2.4vmin);filter:blur(6px)}
-    to{opacity:1;transform:none;filter:blur(0)}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .slide.is-active h1, .slide.is-active h2, .slide.is-active .eyebrow,
-    .slide.is-active .rate-row, .slide.is-active .serv, .slide.is-active .choose,
-    .slide.is-active .price-row,.slide.is-active .price-sub,.slide.is-active .offer-line,
-    .slide.is-active .tv-offer-list,.slide.is-active .tv-offer-list li,
-    .slide.is-active .pill,.slide.is-active .bomb,.slide.is-active .rate-list,
-    .slide.is-active .trial-card,.slide.is-active .score,.slide.is-active .review-col,
-    .slide.is-active .review-chips,.slide.is-active .choose-grid{animation:none}
-  }
-
-  /* projector glint sweeping the stage */
-  .glint{
-    position:absolute;top:-12%;bottom:-12%;left:-32%;width:22%;
-    transform:skewX(-16deg);
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.075),transparent);
-    z-index:30;pointer-events:none;
-    animation:glintSweep 9s ease-in-out 4.5s infinite;
-  }
-  @keyframes glintSweep{0%,66%{left:-32%}100%{left:134%}}
-  @media (prefers-reduced-motion: reduce){.glint{display:none}}
-
-  /* movie opening title sequence (plays once per load) */
-  .tv-intro{position:absolute;inset:0;z-index:100;display:none;cursor:pointer}
-  .tv-intro.is-on{display:block}
-  .tv-intro__bar{
-    position:absolute;left:0;width:100%;height:50.5%;background:#050507;
-    transition:transform 1s cubic-bezier(.7,0,.3,1);
-  }
-  .tv-intro__bar--top{top:0}
-  .tv-intro__bar--bottom{bottom:0}
-  .tv-intro.is-open .tv-intro__bar--top{transform:translateY(-102%)}
-  .tv-intro.is-open .tv-intro__bar--bottom{transform:translateY(102%)}
-  .tv-intro__cards{
-    position:absolute;inset:0;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;text-align:center;
-    transition:opacity .6s ease;
-  }
-  .tv-intro.is-open .tv-intro__cards{opacity:0}
-  .tv-intro__logo{
-    width:11vmin;height:11vmin;border-radius:2.2vmin;object-fit:cover;
-    box-shadow:0 1.6vmin 5vmin rgba(0,0,0,.6),0 0 0 .12vmin rgba(212,175,55,.35);
-    margin-bottom:2.4vmin;
-  }
-  .tv-intro.is-on .tv-intro__logo{animation:tLogo 1s cubic-bezier(.2,.7,.2,1) .15s both}
-  @keyframes tLogo{from{opacity:0;transform:scale(.72);filter:blur(10px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
-  .tv-intro__pre{
-    font-size:1.5vmin;font-weight:800;letter-spacing:.34em;text-transform:uppercase;
-    color:var(--muted);margin-bottom:2vmin;
-  }
-  .tv-intro.is-on .tv-intro__pre{animation:tFade .7s ease .8s both}
-  @keyframes tFade{from{opacity:0}to{opacity:1}}
-  .tv-intro__title{
-    font-family:var(--font-display);font-weight:400;line-height:.98;
-    font-size:7.2vmin;color:#fff;text-transform:uppercase;letter-spacing:.2em;
-  }
-  .tv-intro.is-on .tv-intro__title{animation:tTrack 1.3s var(--ease) 1.2s both}
-  @keyframes tTrack{
-    from{opacity:0;filter:blur(14px);letter-spacing:.3em}
-    to{opacity:1;filter:blur(0);letter-spacing:.02em}
-  }
-  .tv-intro__sub{
-    margin-top:2.2vmin;font-size:1.7vmin;font-weight:800;
-    letter-spacing:.22em;text-transform:uppercase;color:var(--orange);
-  }
-  .tv-intro.is-on .tv-intro__sub{animation:tFade .7s ease 2.2s both}
-  @media (prefers-reduced-motion: reduce){.tv-intro{display:none!important}}
+  .slide.is-active h1,.slide.is-active h2{animation:fadeUp .8s var(--ease) .15s both}
+  .slide.is-active .eyebrow{animation:fadeUp .7s var(--ease) .05s both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(2vmin)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){.slide.is-active h1,.slide.is-active h2,.slide.is-active .eyebrow{animation:none}}
 
   /* ---------- type ---------- */
   .eyebrow{
-    display:inline-flex;align-items:center;gap:1.4vmin;
-    font-size:1.7vmin;font-weight:800;letter-spacing:.34em;
-    text-transform:uppercase;color:var(--orange);margin-bottom:2.2vmin;
+    display:inline-flex;align-items:center;gap:1.2vmin;
+    font-size:1.6vmin;font-weight:800;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--orange);
   }
-  .eyebrow::before{content:"";width:5.2vmin;height:.32vmin;background:var(--orange);border-radius:1vmin}
-  h1,h2{font-family:var(--font-display);font-weight:400;line-height:.94;text-transform:uppercase;letter-spacing:.005em}
-  h1{font-size:8.5vmin}
-  h2{font-size:7vmin}
-  .accent{color:var(--orange)}
+  .eyebrow::before{content:"";width:4vmin;height:.25vmin;background:var(--orange);border-radius:1vmin}
+  h1,h2{font-family:var(--font-display);font-weight:400;line-height:.92;text-transform:uppercase;letter-spacing:.005em}
+  h1{font-size:7vmin}
+  h2{font-size:5.6vmin}
+  h3{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:3vmin;line-height:.95}
 
-  /* ---------- BIG TIMER slide ---------- */
-  .timer-grid{
-    width:100%;display:grid;grid-template-columns:.82fr 1.18fr;
-    gap:4.5vmin;align-items:center;
-  }
-  .offer-vertical{
-    width:100%;display:grid;grid-template-columns:1.35fr .65fr;
-    gap:4.5vmin;align-items:center;
-  }
-  .offer-vertical__offers{min-width:0}
-  .offer-vertical .bomb__digits{font-size:9.2vmin}
-  .timer-title{font-size:7.5vmin;line-height:.88}
-  .price-row{display:flex;align-items:baseline;gap:2.4vmin;margin-top:2.4vmin}
-  .price-now{
-    font-family:var(--font-display);font-size:11vmin;line-height:.82;
-    color:#fff;text-shadow:0 0 4vmin rgba(212,175,55,.35);
-  }
-  .price-was{font-size:2.4vmin;font-weight:700;color:var(--muted);text-decoration:line-through}
-  .price-sub{margin-top:1.6vmin;font-size:2.2vmin;font-weight:800;letter-spacing:.06em;color:var(--orange);text-transform:uppercase}
-  .offer-line{margin-top:1.2vmin;font-size:1.9vmin;color:var(--muted);font-weight:600}
-  .tv-offer-list{list-style:none;padding:0;margin:2.4vmin 0 0;display:grid;gap:1.2vmin}
-  .tv-offer-list li{display:flex;align-items:baseline;gap:1.6vmin;padding:1.4vmin 1.8vmin;border-radius:1.4vmin;background:rgba(212,175,55,.08);border:.15vmin solid rgba(212,175,55,.3)}
-  .tv-offer-list strong{font-size:2.2vmin;font-weight:800;color:#fff;flex:1}
-  .tv-offer-list__price{font-family:var(--font-display);font-size:3.4vmin;line-height:1;color:var(--orange)}
-  .tv-offer-list em{font-style:normal;font-size:1.5vmin;color:var(--muted);font-weight:700}
-  .tv-offer-list__benefit{display:block;font-size:1.4vmin;color:var(--muted);font-weight:600;margin-top:.4vmin}
-  .pill{
-    display:inline-flex;align-items:center;gap:1vmin;
-    margin-top:2.4vmin;padding:1.2vmin 2.6vmin;border-radius:99vmin;
-    background:rgba(212,175,55,.14);border:.2vmin solid rgba(212,175,55,.45);
-    color:var(--orange);font-size:1.6vmin;letter-spacing:.18em;
-    text-transform:uppercase;font-weight:800;white-space:nowrap;
-    animation:pulsePill 1.9s ease-in-out infinite;
-  }
-  @keyframes pulsePill{
-    0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.0);transform:scale(1)}
-    50%{box-shadow:0 0 0 .8vmin rgba(212,175,55,.10);transform:scale(1.02)}
-  }
-
-  .bomb{
-    position:relative;border-radius:3vmin;padding:2.4vmin 2.8vmin;
-    border:.35vmin solid rgba(212,175,55,.6);
-    background:
-      radial-gradient(120% 120% at 100% 0%, rgba(212,175,55,.28), transparent 62%),
-      linear-gradient(165deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
-    box-shadow:0 0 0 .18vmin rgba(212,175,55,.18), 0 4vmin 10vmin -4vmin rgba(212,175,55,.55);
-    animation:bombGlow 2.6s ease-in-out infinite;overflow:hidden;
-  }
-  @keyframes bombGlow{
-    0%,100%{box-shadow:0 0 0 .18vmin rgba(212,175,55,.14), 0 4vmin 10vmin -4vmin rgba(212,175,55,.40)}
-    50%{box-shadow:0 0 0 .28vmin rgba(212,175,55,.40), 0 4vmin 11vmin -3vmin rgba(212,175,55,.75)}
-  }
-  .bomb::before{
-    content:"";position:absolute;inset:-45% -25%;
-    background:conic-gradient(from 0deg, transparent 0 68%, rgba(212,175,55,.11) 84%, transparent 100%);
-    animation:sweep 9s linear infinite;pointer-events:none;
-  }
-  @keyframes sweep{to{transform:rotate(360deg)}}
-  .bomb__label{
-    position:relative;display:flex;align-items:center;gap:1.2vmin;
-    font-size:1.8vmin;letter-spacing:.3em;text-transform:uppercase;
-    font-weight:800;color:#fff;margin-bottom:1.0vmin;
-  }
-  .bomb__dot{
-    width:1.5vmin;height:1.5vmin;border-radius:50%;background:var(--orange);
-    animation:dotPulse 1.4s ease-out infinite;
-  }
-  @keyframes dotPulse{
-    0%{box-shadow:0 0 0 0 rgba(212,175,55,.8)}
-    70%{box-shadow:0 0 0 2vmin rgba(212,175,55,0)}
-    100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}
-  }
-  .bomb__digits{
-    position:relative;font-family:var(--font-display);
-    font-size:15.5vmin;line-height:.9;color:var(--highlight);
-    font-variant-numeric:tabular-nums;letter-spacing:.02em;
-    text-align:center;white-space:nowrap;
-    text-shadow:0 0 4vmin rgba(255,92,26,.45), 0 0 10vmin rgba(255,92,26,.18);
-    animation:tick 1s steps(1,end) infinite;
-  }
-  @keyframes tick{50%{opacity:.96}}
-  .bomb__foot{
-    position:relative;margin-top:1.2vmin;display:flex;align-items:center;
-    justify-content:space-between;gap:2vmin;
-    font-size:1.5vmin;font-weight:800;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--muted);
-  }
+  /* ---------- offer slide ---------- */
+  .offer-exact{width:100%;display:flex;flex-direction:column;gap:2vmin;align-items:stretch;justify-content:center}
+  .offer-exact > .offer-grid{min-width:0}
+  .offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;position:relative;z-index:1}
+  .offer-grid.offer-grid--offers{grid-template-columns:repeat(3,1fr);align-items:stretch}
+  .offer-grid.offer-grid--offers .offer-card{height:100%}
+  .offer-card{position:relative;overflow:hidden;background:linear-gradient(170deg,#17171e,#101015);border:1px solid var(--line-2);border-radius:var(--radius-lg);padding:clamp(1.2rem,2vw,1.8rem);display:flex;flex-direction:column;transition:border-color .3s ease,box-shadow .4s var(--ease)}
+  .offer-card--hero{border-color:rgba(212,175,55,.5);box-shadow:0 0 0 1px rgba(212,175,55,.12),0 20px 60px -30px rgba(212,175,55,.4)}
+  .offer-card__ribbon{position:absolute;top:0;right:0;background:var(--highlight);color:#fff;font-size:1.3vmin;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.6vmin 1.4vmin .6vmin 1.8vmin;border-bottom-left-radius:12px}
+  .offer-card__head{margin-bottom:1vmin}
+  .offer-card__kicker{display:block;font-size:1.3vmin;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--orange);margin-bottom:.5vmin}
+  .offer-card__title{font-family:var(--font-display);font-size:clamp(1.6rem,2.6vw,2.2rem);color:#fff}
+  .offer-card__title span{color:var(--orange)}
+  .offer-card__price{display:flex;align-items:baseline;flex-wrap:wrap;gap:.3rem .75rem;padding-bottom:1vmin;border-bottom:1px dashed rgba(255,255,255,.16)}
+  .offer-card__was{color:var(--muted);text-decoration:line-through;font-size:1.6vmin;font-weight:700}
+  .offer-card__price strong{font-family:var(--font-display);font-size:clamp(2.4rem,4vw,3.4rem);line-height:1;color:#fff}
+  .offer-card__per{font-size:1.2vmin;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
+  .offer-card__list{display:grid;gap:.4vmin;margin:1vmin 0 1.2vmin}
+  .offer-card__list li{position:relative;padding-left:1.4rem;font-size:1.5vmin;color:#b9bbc6;line-height:1.35}
+  .offer-card__list li::before{content:"";position:absolute;left:0;top:.45em;width:9px;height:5px;border-left:1.6px solid var(--orange);border-bottom:1.6px solid var(--orange);transform:rotate(-45deg)}
+  .offer-card .btn{margin-top:auto}
+  .offer-card__note{margin-top:.6vmin;font-size:1.2vmin;color:var(--muted);text-align:center}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:.7rem 1.4rem;border-radius:var(--radius-pill);background:var(--orange);color:#140700;font-weight:800;font-size:1.4vmin;letter-spacing:.01em;border:1px solid transparent;position:relative;overflow:hidden;transition:background-color .25s ease,color .25s ease}
+  .btn--block{width:100%}
+  .offer-exact > .bomb{width:100%;max-width:none}
+  .bomb{position:relative;border-radius:2.4vmin;padding:2vmin 2.8vmin;border:.25vmin solid rgba(212,175,55,.5);background:linear-gradient(165deg,rgba(212,175,55,.10),rgba(255,255,255,.02));overflow:hidden}
+  .bomb__label{display:flex;align-items:center;gap:1vmin;font-size:1.5vmin;letter-spacing:.25em;text-transform:uppercase;font-weight:800;color:#fff;margin-bottom:1vmin}
+  .bomb__dot{width:1.2vmin;height:1.2vmin;border-radius:50%;background:var(--highlight)}
+  .bomb__digits{font-family:var(--font-display);font-size:9vmin;line-height:.9;color:var(--highlight);font-variant-numeric:tabular-nums;text-align:center;white-space:nowrap;text-shadow:0 0 3vmin rgba(255,92,26,.35)}
+  .bomb__bar{margin-top:1vmin;height:.8vmin;border-radius:99vmin;background:rgba(255,255,255,.10);overflow:hidden}
+  .bomb__bar i{display:block;height:100%;width:75%;border-radius:inherit;background:linear-gradient(90deg,var(--orange-deep),var(--orange),#e6c75a)}
+  .bomb__foot{margin-top:1vmin;display:flex;align-items:center;justify-content:space-between;gap:2vmin;font-size:1.3vmin;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   .bomb__foot strong{color:var(--orange)}
-  .bomb__bar{
-    position:relative;margin-top:.9vmin;height:1vmin;border-radius:99vmin;
-    background:rgba(255,255,255,.10);overflow:hidden;
-  }
-  .bomb__bar i{
-    display:block;height:100%;width:80%;border-radius:inherit;
-    background:linear-gradient(90deg,var(--orange-deep),var(--orange),#e6c75a);
-    position:relative;
-  }
-  .bomb__bar i::after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
-    transform:translateX(-100%);animation:shine 2.2s ease-in-out infinite;
-  }
-  @keyframes shine{100%{transform:translateX(100%)}}
 
-  /* ---------- prices ---------- */
-  .prices{width:100%;display:flex;flex-direction:column;gap:1.2vmin}
+  /* ---------- prices slide ---------- */
+  .prices{width:100%;display:flex;flex-direction:column;gap:1.6vmin;align-items:stretch;justify-content:center}
   .prices__head{width:100%}
   .prices__cols{display:grid;grid-template-columns:1.5fr .9fr;gap:3vmin;align-items:start;width:100%}
   .prices__col{min-width:0}
-  .prices__col .eyebrow{margin-bottom:.8vmin}
-  .rate-list{display:grid;gap:1.1vmin;margin-top:2.6vmin}
-  .rate-row{
-    display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:3vmin;
-    padding:1.5vmin 2.8vmin;border-radius:2vmin;
-    background:rgba(255,255,255,.035);border:.2vmin solid var(--line);
-  }
-  .rate-row--hot{
-    background:rgba(212,175,55,.10);border-color:rgba(212,175,55,.45);
-    box-shadow:0 0 3vmin rgba(212,175,55,.12);
-  }
-  .rate-row__name{font-size:2.2vmin;font-weight:800}
-  .rate-row__per{font-size:1.45vmin;color:var(--muted);font-weight:700;margin-top:.3vmin}
-  .rate-row__benefit{font-size:1.3vmin;color:var(--muted);font-weight:600;margin-top:.4vmin;line-height:1.3}
-  .rate-row__price{font-family:var(--font-display);font-size:3.6vmin;line-height:1;color:#fff}
+  .prices__col .eyebrow{margin-bottom:1vmin}
+  .rate-list{display:grid;gap:1vmin;margin-top:1.6vmin}
+  .rate-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2vmin;padding:1.4vmin 2vmin;border-radius:1.6vmin;background:var(--surface);border:.15vmin solid var(--line)}
+  .rate-row--hot{background:rgba(212,175,55,.08);border-color:rgba(212,175,55,.4)}
+  .rate-row__name{font-size:2vmin;font-weight:800}
+  .rate-row__per{font-size:1.3vmin;color:var(--muted);font-weight:700;margin-top:.2vmin}
+  .rate-row__benefit{font-size:1.2vmin;color:var(--muted);font-weight:600;margin-top:.3vmin;line-height:1.3}
+  .rate-row__price{font-family:var(--font-display);font-size:3.2vmin;line-height:1;color:#fff}
   .rate-row--hot .rate-row__price{color:var(--highlight)}
-  .rate-row__save{
-    font-size:1.25vmin;font-weight:800;color:var(--orange);
-    letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;text-align:right;
-  }
-  /* website-style cards on TV */
-  .tv-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vmin;margin-top:3.2vmin}
-  .tv-card{
-    position:relative;overflow:hidden;
-    background:linear-gradient(170deg,rgba(255,255,255,.06),rgba(255,255,255,.015));
-    border:.2vmin solid var(--line);border-radius:2.4vmin;
-    padding:2.6vmin 2.8vmin;display:flex;flex-direction:column;gap:1.4vmin;
-    box-shadow:0 0 0 .1vmin rgba(212,175,55,.1);
-  }
-  .tv-card--hot{border-color:rgba(212,175,55,.45);box-shadow:0 0 3vmin rgba(212,175,55,.15)}
-  .tv-card__ribbon{
-    position:absolute;top:0;right:0;padding:.8vmin 1.6vmin .8vmin 2vmin;
-    background:var(--highlight);color:#fff;font-size:1.3vmin;font-weight:800;
-    letter-spacing:.12em;text-transform:uppercase;border-bottom-left-radius:1.6vmin;
-  }
-  .tv-card__head{margin-top:1.6vmin}
-  .tv-card__kicker{font-size:1.3vmin;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
-  .tv-card__title{font-family:var(--font-display);font-size:3.2vmin;line-height:.95;color:#fff;margin-top:.6vmin}
-  .tv-card__price{display:flex;align-items:baseline;gap:1.6vmin;margin-top:1vmin}
-  .tv-card__was{font-size:1.8vmin;font-weight:700;color:var(--muted);text-decoration:line-through}
-  .tv-card__now{font-family:var(--font-display);font-size:5vmin;line-height:.9;color:var(--highlight)}
-  .tv-card__per{font-size:1.5vmin;font-weight:800;letter-spacing:.06em;color:var(--orange);text-transform:uppercase;margin-top:.6vmin}
-  .tv-card__note{font-size:1.4vmin;color:var(--muted);font-weight:600;margin-top:auto;padding-top:1.2vmin;border-top:.1vmin solid var(--line)}
-  .trial-card{
-    border-radius:3vmin;padding:2.6vmin;
-    background:
-      radial-gradient(120% 100% at 100% 0%, rgba(212,175,55,.24), transparent 62%),
-      linear-gradient(165deg, rgba(255,255,255,.07), rgba(255,255,255,.015));
-    border:.2vmin solid rgba(212,175,55,.42);
-  }
-  .trial-card h3{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:3.6vmin;line-height:.95}
-  .trial-card p.trial-card__price{
-    font-family:var(--font-display);font-size:9vmin;line-height:.9;
-    color:var(--orange);margin:1.4vmin 0 1.8vmin;
-  }
-  .trial-card p{font-size:1.6vmin;line-height:1.5;color:var(--muted);font-weight:600}
-  .trial-card--bottom{
-    width:100%;max-width:74vmin;margin:0 auto;text-align:center;
-    display:flex;flex-direction:column;align-items:center;gap:1vmin;
-  }
-  .trial-card--bottom h3{font-size:3vmin}
-  .trial-card--bottom p.trial-card__price{font-size:7vmin;margin:.6vmin 0}
-  .trial-card--bottom p{font-size:1.5vmin}
+  .rate-row__save{font-size:1.15vmin;font-weight:800;color:var(--orange);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;text-align:right;min-width:6vmin}
+  .trial-card{width:100%;max-width:70vmin;margin:1.2vmin auto 0;text-align:center;border-radius:2.4vmin;padding:2.4vmin;background:linear-gradient(165deg,rgba(212,175,55,.12),rgba(255,255,255,.02));border:.2vmin solid rgba(212,175,55,.4);display:flex;flex-direction:column;align-items:center;gap:.8vmin}
+  .trial-card h3{font-size:2.6vmin}
+  .trial-card__price{font-family:var(--font-display);font-size:6vmin;line-height:.9;color:var(--orange);margin:.4vmin 0}
+  .trial-card p{font-size:1.4vmin;line-height:1.5;color:var(--muted);font-weight:600}
 
-  /* ---------- services ---------- */
+  /* ---------- choose-us slide ---------- */
+  .choose-wrap{width:100%}
+  .choose-grid{display:grid;grid-template-columns:1fr 1fr;gap:2vmin;margin-top:3vmin}
+  .choose{background:var(--surface);border:.15vmin solid var(--line);border-radius:2vmin;padding:2.4vmin;display:flex;flex-direction:column;gap:1vmin}
+  .choose svg{width:3.6vmin;height:3.6vmin;color:var(--orange);flex:0 0 auto}
+  .choose strong{font-size:2.2vmin;color:#fff;font-weight:800}
+  .choose span{font-size:1.6vmin;line-height:1.5;color:var(--muted)}
+  .choose em{font-size:1.5vmin;line-height:1.5;color:#cfcfd6;font-style:italic;border-top:.1vmin solid var(--line);padding-top:1vmin;margin-top:auto}
+
+  /* ---------- services slide ---------- */
   .services{width:100%}
-  .serv-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vmin;margin-top:4vmin;
-  }
-  .serv{
-    display:flex;gap:2vmin;align-items:flex-start;
-    padding:2.8vmin 2.6vmin;border-radius:2.4vmin;
-    background:linear-gradient(165deg,rgba(255,255,255,.06),rgba(255,255,255,.012));
-    border:.2vmin solid var(--line);
-    transition:transform .5s ease, border-color .4s ease;
-  }
-  .serv svg{width:4.4vmin;height:4.4vmin;color:var(--orange);flex:0 0 auto}
-  .serv strong{display:block;font-size:2.1vmin;font-weight:800;line-height:1.2}
-  .serv span{display:block;margin-top:.7vmin;font-size:1.45vmin;color:var(--muted);font-weight:600;line-height:1.4}
+  .serv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2vmin;margin-top:3vmin}
+  .serv{display:flex;gap:1.6vmin;align-items:flex-start;padding:2vmin;border-radius:2vmin;background:var(--surface);border:.15vmin solid var(--line)}
+  .serv svg{width:3.6vmin;height:3.6vmin;color:var(--orange);flex:0 0 auto}
+  .serv strong{display:block;font-size:1.9vmin;font-weight:800;line-height:1.2}
+  .serv span{display:block;margin-top:.5vmin;font-size:1.35vmin;color:var(--muted);font-weight:600;line-height:1.4}
 
-  /* ---------- reviews ---------- */
-  .reviews{width:100%;display:grid;grid-template-columns:.5fr 1.5fr;gap:5vmin;align-items:center}
-  .score{
-    border-radius:3vmin;padding:4vmin 3.4vmin;text-align:center;
-    background:radial-gradient(120% 120% at 50% 0%, rgba(212,175,55,.2), transparent 65%), rgba(255,255,255,.03);
-    border:.2vmin solid rgba(212,175,55,.35);
-  }
-  .score__g{width:7vmin;height:7vmin;margin:0 auto 2vmin;display:grid;place-items:center}
-  .score__g svg{width:100%;height:100%}
-  .score__num{font-family:var(--font-display);font-size:12vmin;line-height:.85;color:#fff}
-  .score__stars{font-size:3vmin;letter-spacing:.3em;color:var(--orange);margin:1.2vmin 0}
-  .score__meta{font-size:1.5vmin;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-  .review-col{display:grid;gap:2.4vmin}
-  .review-quote{
-    padding:3.2vmin 3.6vmin;border-radius:2.4vmin;
-    background:rgba(255,255,255,.04);border-left:.6vmin solid var(--orange);
-    transition:opacity .4s ease, transform .4s ease;
-  }
-  .review-quote.swap{opacity:0;transform:translateY(2.4vmin)}
-  .review-quote p{font-size:3.6vmin;line-height:1.45;font-weight:700;color:#fff}
-  .review-quote cite{
-    display:block;margin-top:1.6vmin;font-style:normal;
-    font-size:1.7vmin;font-weight:800;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--muted);
-  }
-  .review-dots{display:flex;gap:1.1vmin;margin-top:.6vmin}
-  .review-dots i{
-    width:1.3vmin;height:1.3vmin;border-radius:99vmin;
-    background:rgba(255,255,255,.16);transition:background .3s ease, width .3s ease;
-  }
-  .review-dots i.on{width:3.6vmin;background:var(--orange)}
-  .review-chips{display:flex;gap:1.2vmin;flex-wrap:wrap;margin-top:2.4vmin}
-  .review-chips span{
-    padding:1vmin 2vmin;border-radius:99vmin;background:rgba(212,175,55,.10);
-    border:.15vmin solid rgba(212,175,55,.35);color:var(--orange);
-    font-size:1.35vmin;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
-  }
+  /* ---------- reviews slide ---------- */
+  .reviews{width:100%;display:grid;grid-template-columns:.4fr 1.6fr;gap:4vmin;align-items:center}
+  .score{border-radius:2.4vmin;padding:3vmin 2.4vmin;text-align:center;background:var(--surface);border:.15vmin solid rgba(212,175,55,.3)}
+  .score__num{font-family:var(--font-display);font-size:9vmin;line-height:.85;color:#fff}
+  .score__stars{font-size:2.4vmin;letter-spacing:.25em;color:var(--orange);margin:1vmin 0}
+  .score__meta{font-size:1.3vmin;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .review-col{display:grid;gap:2vmin}
+  .review-quote{padding:2.4vmin 2.8vmin;border-radius:2vmin;background:var(--surface);border-left:.4vmin solid var(--orange)}
+  .review-quote p{font-size:2.4vmin;line-height:1.45;font-weight:700;color:#fff}
+  .review-quote cite{display:block;margin-top:1vmin;font-style:normal;font-size:1.4vmin;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .review-dots{display:flex;gap:.8vmin;margin-top:.6vmin}
+  .review-dots i{width:1vmin;height:1vmin;border-radius:99vmin;background:rgba(255,255,255,.2)}
+  .review-dots i.on{width:3vmin;background:var(--orange)}
+  .review-chips{display:flex;gap:1vmin;flex-wrap:wrap;margin-top:2vmin}
+  .review-chips span{padding:.8vmin 1.6vmin;border-radius:99vmin;background:rgba(212,175,55,.10);border:.1vmin solid rgba(212,175,55,.35);color:var(--orange);font-size:1.2vmin;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+
+  /* ---------- brand slide ---------- */
+  .slide--brand{justify-content:center;align-items:center;text-align:center}
+  .brand-wrap{margin:auto}
+  .brand-slide__logo{width:14vmin;height:14vmin;border-radius:2.4vmin;object-fit:cover;box-shadow:0 1.4vmin 5vmin rgba(0,0,0,.5),0 0 0 .12vmin rgba(212,175,55,.3);margin:0 auto 2.4vmin}
+  .brand-slide__name{font-size:5.6vmin;color:#fff}
+  .brand-slide__name .accent{color:var(--orange)}
+  .brand-slide__kicker{margin-top:1.6vmin;font-size:1.4vmin;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+  .brand-slide__tag{margin-top:1.4vmin;font-size:2vmin;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--orange)}
+  .brand-slide__contact{margin-top:2.4vmin;font-size:1.6vmin;line-height:1.8;letter-spacing:.05em;color:var(--muted)}
 
   /* ---------- footer ---------- */
-  .tv-foot{
-    position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;
-    gap:3vmin;padding:1.9vmin calc(var(--safe) + 3vmin);
-    border-top:.2vmin solid var(--line);background:rgba(8,8,10,.72);
-    padding-right:21vmin;
-  }
-  .tv-foot__brand{display:flex;align-items:center;gap:1.4vmin;font-size:1.35vmin;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:var(--muted)}
-  .tv-foot__brand img{width:3.4vmin;height:3.4vmin;border-radius:50%;border:.15vmin solid rgba(255,255,255,.2)}
-  .tv-foot__offer{font-size:1.5vmin;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--highlight);white-space:nowrap}
-  .tv-foot__right{display:flex;align-items:center;gap:2.6vmin}
-  .status{display:inline-flex;align-items:center;gap:1vmin;font-size:1.35vmin;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#57d68a}
-  .status i{width:1.2vmin;height:1.2vmin;border-radius:50%;background:currentColor;box-shadow:0 0 1.6vmin currentColor}
+  .tv-foot{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:3vmin;padding:1.6vmin calc(var(--safe) + 3vmin);border-top:.15vmin solid var(--line);background:rgba(8,8,10,.85)}
+  .tv-foot__brand{display:flex;align-items:center;gap:1.2vmin;font-size:1.25vmin;letter-spacing:.18em;text-transform:uppercase;font-weight:800}
+  .tv-foot__brand img{width:3vmin;height:3vmin;border-radius:50%;border:.12vmin solid rgba(255,255,255,.2)}
+  .tv-foot__offer{font-size:1.35vmin;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--highlight);white-space:nowrap}
+  .tv-foot__right{display:flex;align-items:center;gap:2.4vmin}
+  .status{display:inline-flex;align-items:center;gap:.8vmin;font-size:1.25vmin;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#6fd68a}
+  .status i{width:1vmin;height:1vmin;border-radius:50%;background:currentColor;box-shadow:0 0 1.2vmin currentColor}
   .status.is-closed{color:#ff7a6b}
-  .tv-foot__clock{font-family:var(--font-display);font-size:2.4vmin;letter-spacing:.06em;color:#fff;font-variant-numeric:tabular-nums}
+  .tv-foot__clock{font-family:var(--font-display);font-size:2.2vmin;letter-spacing:.05em;color:#fff;font-variant-numeric:tabular-nums}
 
-  /* dots */
-  .dots{
-    position:absolute;right:calc(var(--safe) + 3vmin);bottom:9.5vmin;
-    display:flex;gap:1vmin;z-index:35;
-  }
-  .dots button{
-    width:1.1vmin;height:1.1vmin;border-radius:99vmin;border:0;padding:0;
-    background:rgba(255,255,255,.22);cursor:pointer;transition:all .3s ease;
-  }
-  .dots button.is-active{width:3.4vmin;background:var(--orange)}
+  /* ---------- dots ---------- */
+  .dots{position:absolute;right:calc(var(--safe) + 2vmin);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:1vmin;z-index:35}
+  .dots button{width:1vmin;height:1vmin;border-radius:99vmin;border:0;padding:0;background:rgba(255,255,255,.25);cursor:pointer;transition:all .3s ease}
+  .dots button.is-active{height:3.2vmin;background:var(--orange)}
 
+  /* ---------- responsive ---------- */
   @media (max-aspect-ratio: 4/3){
-    .timer-grid,.prices,.reviews,.choose-grid,.offer-vertical,.prices__cols{grid-template-columns:1fr;gap:3vmin}
+    .slide{padding:calc(var(--safe)+1vmin) calc(var(--safe)+2vmin) var(--safe)}
+    .prices__cols,.choose-grid,.serv-grid,.reviews{grid-template-columns:1fr;gap:2vmin}
     .serv-grid{grid-template-columns:1fr 1fr}
-    .bomb__digits{font-size:18vmin}
+    .offer-grid.offer-grid--offers{grid-template-columns:1fr}
+    .bomb__digits{font-size:11vmin}
   }
 
-  /* why choose us slide */
-  .choose-wrap{width:100%}
-  .choose-grid{
-    display:grid;grid-template-columns:1fr 1fr;gap:2.2vmin;
-    margin-top:3.4vmin;
-  }
-  .choose{
-    background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.08);
-    border-radius:1.6vmin;padding:2.6vmin 2.8vmin;
-    display:flex;flex-direction:column;gap:1.2vmin;
-    transition:border-color .4s ease,transform .4s ease;
-  }
-  .choose:hover{border-color:rgba(212,175,55,.35);transform:translateY(-.5vmin)}
-  .choose svg{width:4.2vmin;height:4.2vmin;color:var(--orange)}
-  .choose strong{font-size:2.5vmin;color:#fff;letter-spacing:.02em;font-weight:800}
-  .choose span{font-size:1.9vmin;line-height:1.5;color:var(--muted)}
-  .choose em{
-    font-size:1.7vmin;line-height:1.5;color:#cfcfd6;font-style:italic;
-    border-top:.1vmin solid rgba(255,255,255,.09);padding-top:1.2vmin;margin-top:auto;
-  }
-
-  /* brand / logo slide (end credits) */
-  .slide--brand{justify-content:center}
-  .brand-wrap{text-align:center;margin:auto}
-  .brand-slide__logo{
-    width:16vmin;height:16vmin;border-radius:3.2vmin;object-fit:cover;
-    box-shadow:0 1.8vmin 6vmin rgba(0,0,0,.55),0 0 0 .14vmin rgba(212,175,55,.3);
-    margin:0 auto 3vmin;
-  }
-  .slide.is-active .brand-slide__logo{animation:logoFloat 6s ease-in-out 1.4s infinite alternate}
-  @keyframes logoFloat{to{transform:translateY(-1.4vmin) rotateY(8deg)}}
-  .brand-slide__name{font-size:6.4vmin;color:#fff}
-  .brand-slide__name .accent{color:var(--orange)}
-  .brand-slide__kicker{
-    margin-top:2.4vmin;font-size:1.6vmin;font-weight:800;
-    letter-spacing:.32em;text-transform:uppercase;color:var(--muted);
-  }
-  .brand-slide__tag{
-    margin-top:2vmin;font-size:2.4vmin;font-weight:800;
-    letter-spacing:.08em;text-transform:uppercase;color:var(--orange);
-  }
-  .brand-slide__contact{
-    margin-top:3vmin;font-size:1.8vmin;line-height:1.9;
-    letter-spacing:.06em;color:var(--muted);
-  }
   .tv-terms-alert{color:var(--highlight);font-weight:800}
-  .slide.is-active .brand-slide__kicker{animation:creditIn .8s ease .8s both}
-  .slide.is-active .brand-slide__tag{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) .95s both}
-  .slide.is-active .brand-slide__contact{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) 1.1s both}
-  /* ---------- website offer cards (exact) on TV ------------------------- */
-  .offer-exact { width: 100%; height: calc(100% - 8.2vmin); display: flex; flex-direction: column; gap: 2vmin; align-items: stretch; justify-content: center; }
-  .offer-exact > .offer-grid { flex: 1 1 auto; min-height: 0; }
-  .offer-grid.offer-grid--offers { grid-template-columns: repeat(3, 1fr); align-items: stretch; height: 100%; }
-  .offer-grid--offers .offer-card { height: 100%; }
-  .offer-exact > .bomb { width: 100%; max-width: none; }
-  .offer-exact .bomb__digits { font-size: 10.5vmin; }
-  .offer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; position: relative; z-index: 1; }
-  .offer-card { position: relative; overflow: hidden; background: linear-gradient(170deg, #17171e, #101015); border: 1px solid var(--line-2); border-radius: var(--radius-lg); padding: clamp(1rem, 2vw, 1.6rem); display: flex; flex-direction: column; transition: transform 0.4s var(--ease), border-color 0.3s ease, box-shadow 0.4s var(--ease); }
-  .offer-card:hover { transform: translateY(-5px); border-color: rgba(212,175,55,0.45); box-shadow: var(--shadow); }
-  .offer-card--hero { border-color: rgba(212,175,55,0.55); box-shadow: 0 0 0 1px rgba(212,175,55,0.15), 0 30px 80px -30px rgba(212,175,55,0.45); animation: offerGlow 3.2s ease-in-out infinite; }
-  .offer-card--hero::after { content: ""; position: absolute; top: 0; bottom: 0; left: -70%; width: 45%; transform: skewX(-18deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); animation: cardShine 6.5s ease-in-out infinite; pointer-events: none; }
-  @keyframes cardShine { 0%, 52% { left: -70%; } 100% { left: 135%; } }
-  @keyframes offerGlow { 0%, 100% { box-shadow: 0 0 0 1px rgba(212,175,55,0.15), 0 30px 80px -30px rgba(212,175,55,0.35); } 50% { box-shadow: 0 0 0 1px rgba(212,175,55,0.35), 0 30px 90px -20px rgba(212,175,55,0.55); } }
-  @keyframes ribbonPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
-  .offer-card--hero .offer-card__ribbon { animation: ribbonPulse 2s ease-in-out infinite; }
-  .offer-card__ribbon { position: absolute; top: 0; right: 0; background: var(--highlight); color: #fff; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.45rem 1rem 0.45rem 1.2rem; border-bottom-left-radius: 12px; }
-  .offer-card__head { margin-bottom: 0.9rem; }
-  .offer-card__kicker { display: block; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 800; color: var(--orange); margin-bottom: 0.6rem; }
-  .offer-card__title { font-size: clamp(1.9rem, 3.2vw, 2.7rem); color: #fff; }
-  .offer-card__title span { color: var(--orange); }
-  .offer-card__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.3rem 0.75rem; padding-bottom: 0.8rem; border-bottom: 1px dashed rgba(255,255,255,0.16); }
-  .offer-card__was { color: var(--muted); text-decoration: line-through; font-size: 0.95rem; font-weight: 700; }
-  .offer-card__price strong { font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 3.9rem); line-height: 1; color: #fff; }
-  .offer-card__per { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); }
-  .offer-card__list { display: grid; gap: 0.4rem; margin: 0.8rem 0 1.1rem; }
-  .offer-card__list li { position: relative; padding-left: 1.5rem; font-size: 0.86rem; color: #b9bbc6; }
-  .offer-card__list li::before { content: ""; position: absolute; left: 0; top: 0.42em; width: 11px; height: 6px; border-left: 1.8px solid var(--orange); border-bottom: 1.8px solid var(--orange); transform: rotate(-45deg); }
-  .offer-card .btn { margin-top: auto; }
-  .offer-card__note { margin-top: 0.8rem; font-size: 0.7rem; color: var(--muted); text-align: center; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 54px; padding: 0.9rem 1.6rem; border-radius: var(--radius-pill); background: var(--orange); color: #140700; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.01em; border: 1px solid transparent; position: relative; overflow: hidden; transition: transform 0.25s var(--ease), box-shadow 0.3s var(--ease), background-color 0.25s ease, color 0.25s ease; }
-  .btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.45) 50%, transparent 75%); transform: translateX(-120%); transition: transform 0.7s var(--ease); }
-  .btn:hover { transform: translateY(-2px); box-shadow: var(--glow); background: var(--orange-2); }
-  .btn:hover::after { transform: translateX(120%); }
-  .btn:active { transform: translateY(0); }
-  .btn svg { width: 17px; height: 17px; flex: none; }
-  .btn--block { width: 100%; }
-  .slide.is-active .offer-card { animation: riseIn .9s cubic-bezier(.2,.7,.2,1) both, offerGlow 3.2s ease-in-out 1s infinite; }
-  .slide.is-active .offer-card:nth-child(1) { animation-delay: .5s, 1s; }
-  .slide.is-active .offer-card:nth-child(2) { animation-delay: .62s, 1s; }
-  .slide.is-active .offer-card:nth-child(3) { animation-delay: .74s, 1s; }
-
 </style>
+</head>
 <body>
 <div class="stage">
   <div class="progress" id="progress"></div>
-  <canvas class="fx" id="fx" aria-hidden="true"></canvas>
-  <canvas class="fx3d" id="fx3d" aria-hidden="true"></canvas>
-  <div class="glint" aria-hidden="true"></div>
-
-  <!-- movie opening title sequence, once per load -->
-  <div class="tv-intro" id="tv-intro" aria-hidden="true">
-    <div class="tv-intro__bar tv-intro__bar--top"></div>
-    <div class="tv-intro__bar tv-intro__bar--bottom"></div>
-    <div class="tv-intro__cards">
-      <img class="tv-intro__logo" src="../assets/img/logo.jpg" alt="">
-      <p class="tv-intro__pre">Platinum Fitness Club · Unisex · Malakpet</p>
-      <p class="tv-intro__title">Train where<br>Malakpet<br>gets stronger.</p>
-      <p class="tv-intro__sub">Today's spot offer · ends tonight</p>
-    </div>
-  </div>
+  <div class="glint" aria-hidden="true" style="display:none"></div>
 
   <main class="deck">
 
-    <!-- 1 · BIG TIMER + OFFER -->
-        <section class="slide" aria-label="Today's spot offers">
+    <!-- 1 · OFFER -->
+    <section class="slide" aria-label="Today's spot offers">
       <div class="offer-exact">
         <p class="eyebrow">Today only · spot offers</p>
-        <h1 class="timer-title">3 offers<br><span class="accent">today</span></h1>
-
+        <h1>3 offers.<br><span class="accent">Ends tonight.</span></h1>
         <div class="offer-grid offer-grid--offers">
           <article class="offer-card offer-card--hero">
             <span class="offer-card__ribbon">3 months · today only</span>
@@ -617,7 +231,6 @@
             <a class="btn btn--block" href="tel:+917416769922">Claim 3 months · 9,999</a>
             <p class="offer-card__note">Was 11,999. 2,000 off. Today only.</p>
           </article>
-
           <article class="offer-card offer-card--hero">
             <span class="offer-card__ribbon">6 months · today only</span>
             <header class="offer-card__head">
@@ -638,7 +251,6 @@
             <a class="btn btn--block" href="tel:+917416769922">Contact the desk · 13,000</a>
             <p class="offer-card__note">Was 14,000. Additional 1,000 off applied.</p>
           </article>
-
           <article class="offer-card offer-card--hero">
             <span class="offer-card__ribbon">12 months · today only</span>
             <header class="offer-card__head">
@@ -660,7 +272,6 @@
             <p class="offer-card__note">Was 19,000. Additional 1,000 off applied.</p>
           </article>
         </div>
-
         <aside class="bomb">
           <p class="bomb__label"><span class="bomb__dot"></span> Offer ends in</p>
           <p class="bomb__digits" data-countdown>00:00:00</p>
@@ -673,7 +284,7 @@
       </div>
     </section>
 
-    <!-- 2 · MEMBERSHIP PRICES -->
+    <!-- 2 · PRICES -->
     <section class="slide" aria-label="Membership prices">
       <div class="prices">
         <div class="prices__head">
@@ -720,52 +331,46 @@
                 <div class="rate-row__save"></div>
               </div>
             </div>
+            <aside class="trial-card trial-card--bottom">
+              <p class="eyebrow">Try before you join</p>
+              <h3>One-day<br>trial pass</h3>
+              <p class="trial-card__price">₹500</p>
+              <p>Full floor access for a day. Adjusted against membership within 7 days.</p>
+            </aside>
           </div>
         </div>
-        <aside class="trial-card trial-card--bottom">
-          <p class="eyebrow">Try before you join</p>
-          <h3>One-day<br>trial pass</h3>
-          <p class="trial-card__price">₹500</p>
-          <p>Full floor access for a day. Adjusted against membership within 7 days.</p>
-        </aside>
       </div>
     </section>
 
-    </section>
-
     <!-- 3 · WHY CHOOSE US -->
-    <section class="slide" aria-label="Why choose us">
+    <section class="slide" aria-label="Why professionals, doctors and families choose us">
       <div class="choose-wrap">
         <p class="eyebrow">Trusted in New Malakpet</p>
         <h2>Why professionals, doctors<br><span class="accent">&amp; families choose us.</span></h2>
-
         <div class="choose-grid">
           <div class="choose">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3v6a4 4 0 008 0V3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M10 13v3a5 5 0 005 5 4 4 0 004-4v-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="19" cy="13" r="2" stroke="currentColor" stroke-width="1.7"/><path d="M6 3H4m10 0h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <strong>Doctors &amp; hygiene-first</strong>
             <span>Showers cleaned through the day, lockers that work, weekly steam bath to recover.</span>
-            <em>“I finish a session and reach the hospital without going home.” — Dr. Sneha M.</em>
+            <em>"I finish a session and reach the hospital without going home." — Dr. Sneha M.</em>
           </div>
-
           <div class="choose">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M9 7.5V6a3 3 0 016 0v1.5" stroke="currentColor" stroke-width="1.7"/><path d="M3 12.5h18" stroke="currentColor" stroke-width="1.7"/></svg>
             <strong>Working professionals</strong>
             <span>Open 6 AM to 11 PM, Mon–Sat. The floor stays calm and uncrowded even at 10 PM.</span>
-            <em>“The floor is calm even at 10.” — Vikram K.</em>
+            <em>"The floor is calm even at 10." — Vikram K.</em>
           </div>
-
           <div class="choose">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8.5" cy="7.5" r="3" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19.5c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M14.5 19.5c.4-2.3 2-4 4.2-4 1.4 0 2.6.6 3.4 1.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <strong>Families &amp; couples</strong>
             <span>Unisex without being uncomfortable. Husbands, wives and friends train together.</span>
-            <em>“It's unisex without being uncomfortable.” — Farah &amp; Imran</em>
+            <em>"It's unisex without being uncomfortable." — Farah &amp; Imran</em>
           </div>
-
           <div class="choose">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8.5c3.5-2 12.5-2 16 0M4 15.5c3.5 2 12.5 2 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M4 5v14M20 5v14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <strong>Beginners &amp; students</strong>
             <span>Written exercise card in week one, trainer on the floor, budget rates, late hours.</span>
-            <em>“This is how a gym should treat beginners.” — Shruthi S.</em>
+            <em>"This is how a gym should treat beginners." — Shruthi S.</em>
           </div>
         </div>
       </div>
@@ -776,10 +381,9 @@
       <div class="services">
         <p class="eyebrow">What you get</p>
         <h2>Services <span class="accent">inside the club.</span></h2>
-
         <div class="serv-grid">
           <div class="serv">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <div><strong>8,000 sq ft floor</strong><span>Strength and cardio side by side</span></div>
           </div>
           <div class="serv">
@@ -787,19 +391,19 @@
             <div><strong>Cardio zone</strong><span>Treadmills, cross trainers, cycles</span></div>
           </div>
           <div class="serv">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 9.5h2.2v5H3zM18.8 9.5H21v5h-2.2zM6.4 7.4h3v9.2h-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.6 7.4h3v9.2h-3zM9.4 11h5.2v2H9.4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 9.5h2.2v5H3zM18.8 9.5H21v5h-2.2zM6.4 7.4h3v9.2h-3z" stroke="currentColor" stroke-width="1.7"/></svg>
             <div><strong>Strength training</strong><span>Free weights and machines</span></div>
           </div>
           <div class="serv">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 7.5c2.2-1.8 4.3-1.8 6.5 0s4.3 1.8 6.5 0 3.4-1.6 4 0M3.5 12.5c2.2-1.8 4.3-1.8 6.5 0s4.3 1.8 6.5 0 3.4-1.6 4 0M3.5 17.5c2.2-1.8 4.3-1.8 6.5 0s4.3 1.8 6.5 0 3.4-1.6 4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 7.5c2.2-1.8 4.3-1.8 6.5 0s4.3 1.8 6.5 0 3.4-1.6 4 0M3.5 12.5c2.2-1.8 4.3-1.8 6.5 0s4.3 1.8 6.5 0 3.4-1.6 4 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <div><strong>Weekly steam bath</strong><span>One session included every week</span></div>
           </div>
           <div class="serv">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="7" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="7" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M5 21v-2a4 4 0 014-4h6a4 4 0 014 4v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <div><strong>Trainer guidance</strong><span>Exercise card + 7-day onboarding</span></div>
           </div>
           <div class="serv">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M9 6V4h6v2M4 12h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 6V4h8v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <div><strong>Lockers &amp; showers</strong><span>Open lockers, clean changing area</span></div>
           </div>
         </div>
@@ -810,53 +414,38 @@
     <section class="slide" aria-label="Member reviews">
       <div class="reviews">
         <div class="score">
-          <div class="score__g">
-            <svg viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#4285F4" d="M45.1 24.5c0-1.6-.14-3.1-.4-4.5H24v8.5h11.8c-.5 2.7-2 5-4.4 6.6v5.5h7.1c4.2-3.9 6.6-9.6 6.6-16.1z"/>
-              <path fill="#34A853" d="M24 46c6 0 11-2 14.6-5.4l-7.1-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.8 0-10.7-3.9-12.5-9.1H4.2v5.7C7.8 41.1 15.3 46 24 46z"/>
-              <path fill="#FBBC05" d="M11.5 28.1c-.5-1.4-.7-2.9-.7-4.1s.3-2.8.7-4.1v-5.7H4.2A22 22 0 0 0 2 24c0 3.5.8 6.8 2.2 9.8l7.3-5.7z"/>
-              <path fill="#EA4335" d="M24 10.8c3.3 0 6.2 1.1 8.5 3.3l6.3-6.3C35 4.1 30 2 24 2 15.3 2 7.8 6.9 4.2 14.2l7.3 5.7c1.8-5.2 6.7-9.1 12.5-9.1z"/>
-            </svg>
-          </div>
           <p class="score__num">4.8</p>
           <p class="score__stars">★★★★★</p>
           <p class="score__meta">85+ member reviews</p>
         </div>
-
         <div>
           <p class="eyebrow">Google reviews</p>
           <h2>What members <span class="accent">say.</span></h2>
-
-          <div class="review-col" style="margin-top:3vmin">
+          <div class="review-col" style="margin-top:2vmin">
             <figure class="review-quote" id="rq-a">
-              <p>“I shifted from a gym near my office to Platinum because of the timings. 6 AM opens sharp, and the floor is genuinely spacious. The trainer corrected my deadlift in week one.”</p>
+              <p>"I shifted from a gym near my office to Platinum because of the timings. 6 AM opens sharp, and the floor is genuinely spacious."</p>
               <cite>Rohit K. · IT professional · New Malakpet</cite>
             </figure>
             <figure class="review-quote" id="rq-b">
-              <p>“Clean showers and lockers matter more than people admit. I finish a session, get ready and reach the hospital without going home. The weekly steam bath is a bonus.”</p>
+              <p>"Clean showers and lockers matter more than people admit. I finish a session, get ready and reach the hospital without going home."</p>
               <cite>Dr. Sneha M. · Doctor · Malakpet</cite>
             </figure>
-            <div class="review-dots" id="rq-dots" aria-hidden="true"></div>
           </div>
-
           <div class="review-chips">
-            <span>Spacious floor</span>
-            <span>Opens 6 AM sharp</span>
-            <span>Clean showers</span>
-            <span>Steam bath</span>
+            <span>Spacious floor</span><span>Opens 6 AM sharp</span><span>Clean showers</span><span>Steam bath</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 6 · BRAND / LOGO (end-credits style) -->
+    <!-- 6 · BRAND -->
     <section class="slide slide--brand" aria-label="Platinum Fitness Club">
       <div class="brand-wrap">
         <img class="brand-slide__logo" src="../assets/img/logo.jpg" alt="Platinum Fitness Club Unisex logo">
         <h2 class="brand-slide__name">Platinum<br><span class="accent">Fitness Club</span></h2>
         <p class="brand-slide__kicker">Unisex · New Malakpet · Hyderabad</p>
         <p class="brand-slide__tag">Train where Malakpet gets stronger.</p>
-        <p class="brand-slide__contact">★ 4.8 / 5 on Justdial · Call 74167 69922<br>Opp. Zudio · Metro Pillar No. 1456 · Open 6 AM – 11 PM · <span class="tv-terms-alert">Sunday closed</span></p>
+        <p class="brand-slide__contact">★ 4.8 / 5 on Justdial · Call 74167 69922<br>Opp. Zudio · Metro Pillar No. 1456 · Open 6 AM – 11 PM<br><span class="tv-terms-alert">Sunday closed.</span></p>
       </div>
     </section>
 
@@ -880,50 +469,11 @@
 <script>
 (function () {
   "use strict";
-
-  /* movie opening title sequence — plays once per load, click to skip */
-  (function () {
-    var intro = document.getElementById("tv-intro");
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var kiosk = false;
-    try { kiosk = new URLSearchParams(location.search).get("kiosk") === "1" || location.hash === "#kiosk"; } catch (e) {}
-    if (!intro || reduce || kiosk) { if (intro) intro.remove(); return; }
-    intro.classList.add("is-on");
-    var done = false;
-    function end() {
-      if (done) return;
-      done = true;
-      intro.classList.add("is-open");
-      try { if (document.fullscreenElement === null && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function(){}); } catch (e) {}
-      window.setTimeout(function () { if (intro.parentNode) intro.remove(); }, 900);
-    }
-    intro.addEventListener("click", end);
-    window.setTimeout(end, 2800);
-  })();
-
   var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
   var dotsWrap = document.getElementById("dots");
   var progress = document.getElementById("progress");
   var DURATION = 13000;
   var index = 0;
-
-  /* one-tap fullscreen on a TV browser (first interaction) */
-  (function () {
-    var asked = false;
-    function goFs() {
-      if (asked) return;
-      asked = true;
-      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(function () {});
-      }
-      document.removeEventListener("click", goFs);
-      document.removeEventListener("touchstart", goFs);
-    }
-    document.addEventListener("click", goFs);
-    document.addEventListener("touchstart", goFs);
-  })();
-  var timer = null;
-  var paused = false;
 
   slides.forEach(function (_, i) {
     var b = document.createElement("button");
@@ -940,7 +490,6 @@
     progress.style.setProperty("--dur", DURATION + "ms");
     progress.classList.add("run");
   }
-
   function goTo(i) {
     index = (i + slides.length) % slides.length;
     slides.forEach(function (s, n) { s.classList.toggle("is-active", n === index); });
@@ -948,28 +497,15 @@
     restartProgress();
     schedule();
   }
-
-  function schedule() {
-    clearTimeout(timer);
-    if (paused) return;
-    timer = setTimeout(function () { goTo(index + 1); }, DURATION);
-  }
-
+  function schedule() { clearTimeout(timer); if (paused) return; timer = setTimeout(function () { goTo(index + 1); }, DURATION); }
   function next() { goTo(index + 1); }
   function prev() { goTo(index - 1); }
-
   function togglePause() {
     paused = !paused;
-    if (paused) {
-      clearTimeout(timer);
-      progress.classList.remove("run");
-      progress.style.width = getComputedStyle(progress).width;
-    } else {
-      progress.style.width = "";
-      restartProgress();
-      schedule();
-    }
+    if (paused) { clearTimeout(timer); progress.classList.remove("run"); progress.style.width = getComputedStyle(progress).width; }
+    else { progress.style.width = ""; restartProgress(); schedule(); }
   }
+  var timer = null, paused = false;
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); next(); }
@@ -980,161 +516,17 @@
       else { document.exitFullscreen && document.exitFullscreen(); }
     }
   });
-
   document.addEventListener("visibilitychange", function () {
-    if (document.hidden) { clearTimeout(timer); }
-    else { schedule(); }
+    if (document.hidden) clearTimeout(timer); else schedule();
   });
 
+  // cursor hide
   var cursorTimer = null;
   document.addEventListener("mousemove", function () {
     document.body.classList.add("show-cursor");
     clearTimeout(cursorTimer);
     cursorTimer = setTimeout(function () { document.body.classList.remove("show-cursor"); }, 3000);
   });
-
-  // ---------- ember canvas (background effects) ----------
-  (function () {
-    var cv = document.getElementById("fx");
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!cv || reduce || !cv.getContext) return;
-    var ctx = cv.getContext("2d");
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var dots = [];
-    var W = 0, H = 0;
-    var beamT = Math.random() * Math.PI * 2;
-
-    function spawn(bottom) {
-      var bokeh = Math.random() < 0.32;
-      return {
-        x: Math.random() * W,
-        y: bottom ? H + 24 : Math.random() * H,
-        r: bokeh ? 3.5 + Math.random() * 8 : 1 + Math.random() * 2.4,
-        vy: bokeh ? 0.06 + Math.random() * 0.18 : 0.24 + Math.random() * 0.65,
-        sway: Math.random() * Math.PI * 2,
-        swaySpeed: 0.002 + Math.random() * 0.009,
-        swayAmp: 12 + Math.random() * 30,
-        alpha: bokeh ? 0.18 + Math.random() * 0.22 : 0.35 + Math.random() * 0.5,
-        twinkle: Math.random() * Math.PI * 2,
-        hot: Math.random() < 0.75,
-        bokeh: bokeh
-      };
-    }
-
-    function resize() {
-      W = cv.clientWidth || window.innerWidth;
-      H = cv.clientHeight || window.innerHeight;
-      cv.width = Math.round(W * dpr);
-      cv.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var target = Math.round(Math.min(170, Math.max(80, W / 10)));
-      while (dots.length < target) dots.push(spawn(false));
-      if (dots.length > target) dots.length = target;
-    }
-
-    function drawBeam() {
-      beamT += 0.0021;
-      var x = W * (0.5 + 0.62 * Math.sin(beamT));
-      ctx.save();
-      ctx.globalCompositeOperation = "lighter";
-      ctx.translate(x, H * 0.55);
-      ctx.rotate(-0.32);
-      var bw = W * 0.3;
-      var g = ctx.createLinearGradient(-bw, 0, bw, 0);
-      g.addColorStop(0, "rgba(212,175,55,0)");
-      g.addColorStop(0.5, "rgba(230,199,90,0.075)");
-      g.addColorStop(1, "rgba(212,175,55,0)");
-      ctx.fillStyle = g;
-      ctx.fillRect(-bw, -H * 1.5, bw * 2, H * 3);
-      ctx.restore();
-    }
-
-    function frame() {
-      if (!document.hidden) {
-        ctx.clearRect(0, 0, W, H);
-        if (cv.clientWidth && (cv.clientWidth !== W || cv.clientHeight !== H)) resize();
-        drawBeam();
-        for (var i = 0; i < dots.length; i++) {
-          var d = dots[i];
-          d.y -= d.vy;
-          d.sway += d.swaySpeed * 16;
-          d.twinkle += 0.03;
-          if (d.y < -28) dots[i] = spawn(true);
-          var px = d.x + Math.sin(d.sway) * d.swayAmp;
-          var a = Math.max(0, d.alpha * (0.6 + 0.4 * Math.sin(d.twinkle)));
-          if (d.bokeh) {
-            var col = d.hot ? "212,175,55" : "255,255,255";
-            var gr = ctx.createRadialGradient(px, d.y, 0, px, d.y, d.r * 3.4);
-            gr.addColorStop(0, "rgba(" + col + "," + a.toFixed(3) + ")");
-            gr.addColorStop(1, "rgba(" + col + ",0)");
-            ctx.fillStyle = gr;
-            ctx.beginPath();
-            ctx.arc(px, d.y, d.r * 3.4, 0, Math.PI * 2);
-            ctx.fill();
-          } else {
-            ctx.globalAlpha = a;
-            ctx.shadowColor = d.hot ? "rgba(212,175,55,.95)" : "rgba(255,255,255,.85)";
-            ctx.shadowBlur = d.r * 7;
-            ctx.fillStyle = d.hot ? "#e6c75a" : "#ffffff";
-            ctx.beginPath();
-            ctx.arc(px, d.y, d.r, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-        ctx.globalAlpha = 1;
-        ctx.shadowBlur = 0;
-      }
-      requestAnimationFrame(frame);
-    }
-
-    resize();
-    window.addEventListener("resize", resize);
-    requestAnimationFrame(frame);
-  })();
-
-  // ---------- rotating member reviews (8 reviews, 2 at a time) ----------
-  var reviewData = [
-    { p: "“I shifted from a gym near my office to Platinum because of the timings. 6 AM opens sharp, and the floor is genuinely spacious. The trainer corrected my deadlift in week one.”", c: "Rohit K. · IT professional · New Malakpet" },
-    { p: "“Clean showers and lockers matter more than people admit. I finish a session, get ready and reach the hospital without going home. The weekly steam bath is a bonus.”", c: "Dr. Sneha M. · Doctor · Malakpet" },
-    { p: "“The trainer gave me a written exercise card in week one and followed up every session. I lost 9 kg in four months without feeling rushed. This is how a gym should treat beginners.”", c: "Shruthi S. · Teacher · Anand Nagar" },
-    { p: "“My wife and I joined on a spot offer — extra month free, steam bath and trainer guidance included. Best value we found after comparing four gyms in the area.”", c: "Rakesh A. · Bank employee · Malakpet" },
-    { p: "“I run a business near Malakpet and train at 7 AM before opening shop. The crowd is respectful, the floor is spacious, and the monthly rate fits a small-business budget perfectly.”", c: "Mahesh B. · Business owner · New Malakpet" },
-    { p: "“As a doctor, I look at hygiene first. Showers are cleaned regularly, lockers work, and the steam bath after a long week is exactly what I needed. Worth every rupee.”", c: "Dr. Praveen N. · Physician · Malakpet" },
-    { p: "“I'm 46 and joined for fitness, not bodybuilding. Nobody made me feel out of place. Trainers adjusted the plan for my knee, and the steam bath helps my recovery.”", c: "Suresh V. · Chartered accountant · Malakpet" },
-    { p: "“Switched from a crowded gym near Dilsukhnagar. Here the equipment is spread out, you never wait for a bench, and the general trainer actually watches your form.”", c: "Tejas K. · IT professional · Kothapet" }
-  ];
-  var rqA = document.getElementById("rq-a");
-  var rqB = document.getElementById("rq-b");
-  var rqDots = document.getElementById("rq-dots");
-  if (rqA && rqB) {
-    var PAIRS = reviewData.length / 2;
-    var rPair = 0;
-    var rDots = [];
-    for (var d = 0; d < PAIRS; d++) {
-      var dot = document.createElement("i");
-      rqDots.appendChild(dot);
-      rDots.push(dot);
-    }
-    function renderPair(k) {
-      rqA.querySelector("p").textContent = reviewData[k * 2].p;
-      rqA.querySelector("cite").textContent = reviewData[k * 2].c;
-      rqB.querySelector("p").textContent = reviewData[k * 2 + 1].p;
-      rqB.querySelector("cite").textContent = reviewData[k * 2 + 1].c;
-      rDots.forEach(function (dt, n) { dt.classList.toggle("on", n === k); });
-    }
-    function rotateReviews() {
-      rqA.classList.add("swap");
-      rqB.classList.add("swap");
-      setTimeout(function () {
-        rPair = (rPair + 1) % PAIRS;
-        renderPair(rPair);
-        rqA.classList.remove("swap");
-        rqB.classList.remove("swap");
-      }, 400);
-    }
-    renderPair(0);
-    setInterval(rotateReviews, 3250); // 4 pairs x 3.25s = 13s slide duration
-  }
 
   // ---------- countdown to midnight ----------
   var cdEls = Array.prototype.slice.call(document.querySelectorAll("[data-countdown]"));
@@ -1154,36 +546,56 @@
   var clockEl = document.getElementById("clock");
   var statusEl = document.getElementById("status");
   var statusText = document.getElementById("status-text");
-
   function tickClock() {
     var now = new Date();
     var h = now.getHours();
     var m = now.getMinutes();
     clockEl.textContent = pad(h) + ":" + pad(m);
-
     var day = now.getDay();
     var minutes = h * 60 + m;
     var open = day !== 0 && minutes >= 360 && minutes < 1380;
-
     statusEl.classList.toggle("is-closed", !open);
     statusText.textContent = open ? "Open now" : (day === 0 ? "Sunday closed" : "Closed");
   }
+  function loop() { tickCountdown(); tickClock(); setTimeout(loop, 1000); }
 
-  function loop() {
-    tickCountdown();
-    tickClock();
-    setTimeout(loop, 1000);
+  // ---------- rotating reviews (2 at a time) ----------
+  var reviewData = [
+    { p: "\u201cI shifted from a gym near my office to Platinum because of the timings. 6 AM opens sharp, and the floor is genuinely spacious.\u201d", c: "Rohit K. \u00b7 IT professional \u00b7 New Malakpet" },
+    { p: "\u201cClean showers and lockers matter more than people admit. I finish a session, get ready and reach the hospital without going home.\u201d", c: "Dr. Sneha M. \u00b7 Doctor \u00b7 Malakpet" },
+    { p: "\u201cThe trainer gave me a written exercise card in week one and followed up every session. I lost 9 kg in four months.\u201d", c: "Vikram K. \u00b7 Software engineer \u00b7 Dilsukhnagar" },
+    { p: "\u201cMy wife and I joined on a spot offer. Best value we found after comparing three gyms in Malakpet.\u201d", c: "Farah & Imran \u00b7 Working professionals \u00b7 Anand Nagar" }
+  ];
+  var rqA = document.getElementById("rq-a");
+  var rqB = document.getElementById("rq-b");
+  if (rqA && rqB) {
+    var rPair = 0;
+    function renderPair(k) {
+      rqA.querySelector("p").textContent = reviewData[k * 2 % reviewData.length].p;
+      rqA.querySelector("cite").textContent = reviewData[k * 2 % reviewData.length].c;
+      rqB.querySelector("p").textContent = reviewData[(k * 2 + 1) % reviewData.length].p;
+      rqB.querySelector("cite").textContent = reviewData[(k * 2 + 1) % reviewData.length].c;
+    }
+    function rotateReviews() {
+      rqA.classList.add("swap"); rqB.classList.add("swap");
+      setTimeout(function () {
+        rPair = (rPair + 1) % (reviewData.length / 2);
+        renderPair(rPair);
+        rqA.classList.remove("swap"); rqB.classList.remove("swap");
+      }, 400);
+    }
+    renderPair(0);
+    setInterval(rotateReviews, 3250);
   }
 
   var hashSlide = parseInt((location.hash || "").replace("#", ""), 10);
   goTo(isNaN(hashSlide) ? 0 : hashSlide - 1);
   loop();
 
+  // kiosk: skip intro (none here) — nothing to do
   setTimeout(function () { location.reload(); }, 6 * 60 * 60 * 1000);
 })();
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js" defer></script>
-<script src="motion3d.js" defer></script>
 </body>
 </html>
