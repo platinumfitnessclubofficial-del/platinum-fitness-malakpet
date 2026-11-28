@@ -113,7 +113,7 @@
   .prices__cols{display:grid;grid-template-columns:1.5fr .9fr;gap:3vmin;align-items:start;width:100%}
   .prices__col{min-width:0}
   .prices__col .eyebrow{margin-bottom:1vmin}
-  .rate-list{display:grid;gap:1vmin;margin-top:1.6vmin}
+  .rate-list{display:grid;gap:.8vmin;margin-top:1.2vmin}
   .rate-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2vmin;padding:1.4vmin 2vmin;border-radius:1.6vmin;background:var(--surface);border:.15vmin solid var(--line)}
   .rate-row--hot{background:rgba(212,175,55,.08);border-color:rgba(212,175,55,.4)}
   .rate-row__name{font-size:2vmin;font-weight:800}
@@ -124,7 +124,7 @@
   .rate-row__prices{display:flex;flex-direction:row;align-items:baseline;gap:1vmin;justify-content:flex-end}
   .rate-row__was{font-size:1.5vmin;color:var(--muted);text-decoration:line-through;font-weight:700}
   .rate-row__save{font-size:1.15vmin;font-weight:800;color:var(--orange);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;text-align:right;min-width:6vmin}
-  .trial-card{width:100%;max-width:70vmin;margin:1.2vmin auto 0;text-align:center;border-radius:2.4vmin;padding:2.4vmin;background:linear-gradient(165deg,rgba(212,175,55,.12),rgba(255,255,255,.02));border:.2vmin solid rgba(212,175,55,.4);display:flex;flex-direction:column;align-items:center;gap:.8vmin;animation:float 4s ease-in-out infinite}
+  .trial-card{width:100%;max-width:70vmin;margin:.8vmin auto 0;text-align:center;border-radius:2.4vmin;padding:2vmin;background:linear-gradient(165deg,rgba(212,175,55,.12),rgba(255,255,255,.02));border:.2vmin solid rgba(212,175,55,.4);display:flex;flex-direction:column;align-items:center;gap:.6vmin;animation:float 4s ease-in-out infinite}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.4vmin)}}
   .trial-card h3{font-size:2.6vmin}
   .trial-card__price{font-family:var(--font-display);font-size:6vmin;line-height:.9;color:var(--orange);margin:.4vmin 0}
@@ -215,61 +215,57 @@
           <p class="eyebrow">Membership prices · today's offers</p>
           <h2>Pick your<br><span class="accent">duration.</span></h2>
         </div>
-        <div class="prices__cols">
-          <div class="prices__col">
-            <div class="rate-list">
-              <div class="rate-row">
-                <div><div class="rate-row__name">1 month</div><div class="rate-row__per">5,000 / month</div><div class="rate-row__benefit">Full gym access · trainer on the floor</div></div>
-                <div class="rate-row__prices">
-                  <span class="rate-row__price">₹5,000</span>
-                </div>
-                <div class="rate-row__save"></div>
-              </div>
-              <div class="rate-row rate-row--hot">
-                <div><div class="rate-row__name">3 months · today</div><div class="rate-row__per">3,333 / month · 3 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
-                <div class="rate-row__prices">
-                  <span class="rate-row__was">₹12,000</span>
-                  <span class="rate-row__price">₹9,999</span>
-                </div>
-                <div class="rate-row__save">2,000 off</div>
-              </div>
-              <div class="rate-row rate-row--hot">
-                <div><div class="rate-row__name">6 months · today</div><div class="rate-row__per">2,167 / month · 6 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
-                <div class="rate-row__prices">
-                  <span class="rate-row__was">₹17,000</span>
-                  <span class="rate-row__price">₹13,000</span>
-                </div>
-                <div class="rate-row__save">4,000 off</div>
-              </div>
-              <div class="rate-row rate-row--hot">
-                <div><div class="rate-row__name">12 months · today</div><div class="rate-row__per">1,500 / month · 12 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
-                <div class="rate-row__prices">
-                  <span class="rate-row__was">₹23,000</span>
-                  <span class="rate-row__price">₹18,000</span>
-                </div>
-                <div class="rate-row__save">5,000 off</div>
-              </div>
+        <div class="rate-list">
+          <div class="rate-row">
+            <div><div class="rate-row__name">1 month</div><div class="rate-row__per">5,000 / month</div><div class="rate-row__benefit">Full gym access · trainer on the floor</div></div>
+            <div class="rate-row__prices">
+              <span class="rate-row__price">₹5,000</span>
             </div>
+            <div class="rate-row__save"></div>
           </div>
-          <div class="prices__col">
-            <aside class="trial-card trial-card--bottom">
-              <p class="eyebrow">Try before you join</p>
-              <h3>One-day<br>trial pass</h3>
-              <p class="trial-card__price">₹500</p>
-              <p>Full floor access for a day. Adjusted against membership within 7 days.</p>
-            </aside>
-            <aside class="bomb">
-              <p class="bomb__label"><span class="bomb__dot"></span> Offer ends in</p>
-              <p class="bomb__digits" data-countdown>00:00:00</p>
-              <div class="bomb__bar"><i></i></div>
-              <div class="bomb__foot">
-                <span>today batch</span>
-                <strong>Filling fast</strong>
-              </div>
-            </aside>
+          <div class="rate-row rate-row--hot">
+            <div><div class="rate-row__name">3 months · today</div><div class="rate-row__per">3,333 / month · 3 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
+            <div class="rate-row__prices">
+              <span class="rate-row__was">₹12,000</span>
+              <span class="rate-row__price">₹9,999</span>
+            </div>
+            <div class="rate-row__save">2,000 off</div>
+          </div>
+          <div class="rate-row rate-row--hot">
+            <div><div class="rate-row__name">6 months · today</div><div class="rate-row__per">2,167 / month · 6 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
+            <div class="rate-row__prices">
+              <span class="rate-row__was">₹17,000</span>
+              <span class="rate-row__price">₹13,000</span>
+            </div>
+            <div class="rate-row__save">4,000 off</div>
+          </div>
+          <div class="rate-row rate-row--hot">
+            <div><div class="rate-row__name">12 months · today</div><div class="rate-row__per">1,500 / month · 12 months</div><div class="rate-row__benefit">Full gym access · steam bath · trainer</div></div>
+            <div class="rate-row__prices">
+              <span class="rate-row__was">₹23,000</span>
+              <span class="rate-row__price">₹18,000</span>
+            </div>
+            <div class="rate-row__save">5,000 off</div>
           </div>
         </div>
+        <aside class="trial-card trial-card--bottom">
+          <p class="eyebrow">Try before you join</p>
+          <h3>One-day<br>trial pass</h3>
+          <p class="trial-card__price">₹500</p>
+          <p>Full floor access for a day. Adjusted against membership within 7 days.</p>
+        </aside>
+        <aside class="bomb">
+          <p class="bomb__label"><span class="bomb__dot"></span> Offer ends in</p>
+          <p class="bomb__digits" data-countdown>00:00:00</p>
+          <div class="bomb__bar"><i></i></div>
+          <div class="bomb__foot">
+            <span>today batch</span>
+            <strong>Filling fast</strong>
+          </div>
+        </aside>
       </div>
+    </section>
+
     </section>
 
     <!-- 2 · WHY CHOOSE US -->
