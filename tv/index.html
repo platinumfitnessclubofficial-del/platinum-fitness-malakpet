@@ -122,7 +122,8 @@
   .rate-row__price{font-family:var(--font-display);font-size:3.2vmin;line-height:1;color:#fff}
   .rate-row--hot .rate-row__price{color:var(--highlight)}
   .rate-row__save{font-size:1.15vmin;font-weight:800;color:var(--orange);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;text-align:right;min-width:6vmin}
-  .trial-card{width:100%;max-width:70vmin;margin:1.2vmin auto 0;text-align:center;border-radius:2.4vmin;padding:2.4vmin;background:linear-gradient(165deg,rgba(212,175,55,.12),rgba(255,255,255,.02));border:.2vmin solid rgba(212,175,55,.4);display:flex;flex-direction:column;align-items:center;gap:.8vmin}
+  .trial-card{width:100%;max-width:70vmin;margin:1.2vmin auto 0;text-align:center;border-radius:2.4vmin;padding:2.4vmin;background:linear-gradient(165deg,rgba(212,175,55,.12),rgba(255,255,255,.02));border:.2vmin solid rgba(212,175,55,.4);display:flex;flex-direction:column;align-items:center;gap:.8vmin;animation:float 4s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.4vmin)}}
   .trial-card h3{font-size:2.6vmin}
   .trial-card__price{font-family:var(--font-display);font-size:6vmin;line-height:.9;color:var(--orange);margin:.4vmin 0}
   .trial-card p{font-size:1.4vmin;line-height:1.5;color:var(--muted);font-weight:600}
